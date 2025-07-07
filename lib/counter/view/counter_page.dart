@@ -38,11 +38,31 @@ class CounterView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return DefaultScaffold(
+      title: 'Finance focus lab',
       body: Padding(
-          padding: const EdgeInsets.all(AppSpacing.xsmall),
-          child: Center(
-            child: LivingBeing(levelOfLife: 1),
-          )),
+        padding: EdgeInsets.all(AppSpacing.xsmall),
+        child: Column(
+          children: [
+            Text('R\$ 200'),
+            SizedBox(
+              width: 200,
+              height: 200,
+              child: Center(
+                child: LivingBeing(levelOfLife: 1),
+              ),
+            ),
+            Spacer(),
+            Text('Consume money'),
+            Slider(
+              value: 0,
+              onChanged: (value) {},
+              min: 0,
+              max: 100,
+              activeColor: Colors.red,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

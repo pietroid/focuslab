@@ -2,58 +2,58 @@ import 'package:flutter/material.dart';
 import 'package:focuslab/counter/widgets/oscillating_builder.dart';
 
 class LivingBeing extends StatelessWidget {
-  final int levelOfLife;
+  /// when levelOfLife is 0, the being is sick
+  /// when levelOfLife is 1, the being is in the best condition
+  final double levelOfLife;
   const LivingBeing({super.key, required this.levelOfLife});
 
   @override
   Widget build(BuildContext context) {
-    /// Alive and well
-    // return OscillatingBuilder(
-    //     minValue: 10.0,
-    //     maxValue: 40.0,
-    //     period: 4.0,
-    //     phase: 0.0,
-    //     builder: (context, signal, staticChild) {
-    //       return Container(
-    //         width: 100,
-    //         height: 100,
-    //         decoration: new BoxDecoration(
-    //           color: const Color.fromARGB(255, 255, 255, 255),
-    //           shape: BoxShape.circle,
-    //           boxShadow: [
-    //             BoxShadow(
-    //               color:
-    //                   const Color.fromARGB(255, 255, 184, 3).withOpacity(1.0),
-    //               blurRadius: signal,
-    //               offset: const Offset(0, 0), // Shadow position
-    //             ),
-    //           ],
-    //         ),
-    //       );
-    //     });
+    final width = 80 + levelOfLife * 20.0;
 
-    /// Sick
+    final color = Color.lerp(
+      const Color.fromARGB(255, 0, 0, 0),
+      const Color.fromARGB(255, 255, 255, 255),
+      levelOfLife - 0.2,
+    )!;
+
+    final glowColor = Color.lerp(
+      const Color.fromARGB(255, 76, 0, 0),
+      const Color.fromARGB(255, 0, 255, 38),
+      levelOfLife,
+    )!;
+
+    final oscilationAmplitude = levelOfLife;
+
+    /// Alive and well
     return OscillatingBuilder(
-        minValue: 80.0,
-        maxValue: 100.0,
-        period: 50.0,
-        phase: 0.0,
-        builder: (context, signal, staticChild) {
-          return Container(
-            width: 80,
-            height: 80,
-            decoration: new BoxDecoration(
-              color: const Color.fromARGB(255, 0, 0, 0),
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: const Color.fromARGB(255, 58, 0, 0).withOpacity(1.0),
-                  blurRadius: signal,
-                  offset: const Offset(0, 0), // Shadow position
-                ),
-              ],
-            ),
-          );
+        minValue: 1.1 - oscilationAmplitude * 0.1,
+        maxValue: 1.1 + oscilationAmplitude * 0.1,
+        period: 6.0,
+        phase: 0.1,
+        builder: (context, widthSignal, staticChild) {
+          return OscillatingBuilder(
+              minValue: 20.0 - oscilationAmplitude * 10.0,
+              maxValue: 20.0 + oscilationAmplitude * 10.0,
+              period: 6.0,
+              phase: 0.0,
+              builder: (context, blurSignal, staticChild) {
+                return Container(
+                  width: width * widthSignal,
+                  height: width * widthSignal,
+                  decoration: BoxDecoration(
+                    color: color,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: glowColor,
+                        blurRadius: blurSignal,
+                        offset: const Offset(0, 0), // Shadow position
+                      ),
+                    ],
+                  ),
+                );
+              });
         });
   }
 }

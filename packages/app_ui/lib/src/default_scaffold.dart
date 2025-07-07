@@ -4,9 +4,11 @@ class DefaultScaffold extends StatelessWidget {
   const DefaultScaffold({
     super.key,
     required this.body,
+    required this.title,
   });
 
   final Widget body;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class DefaultScaffold extends StatelessWidget {
         appBar: AppBar(
             shadowColor: Colors.transparent,
             title: Text(
-              'Focus Lab',
+              title,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             centerTitle: true,
