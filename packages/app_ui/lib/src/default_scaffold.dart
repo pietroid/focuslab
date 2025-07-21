@@ -17,6 +17,7 @@ class DefaultScaffold extends StatelessWidget {
         appBar: AppBar(
             shadowColor: Colors.transparent,
             title: Text(
+              //textAlign: TextAlign.left,
               title,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
@@ -29,8 +30,8 @@ class DefaultScaffold extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color.fromARGB(255, 4, 24, 29), // Default card color
-                Color.fromARGB(255, 4, 6, 26), // Default background color
+                Color.fromARGB(255, 6, 40, 49), // Default card color
+                Color.fromARGB(255, 4, 4, 26), // Default background color
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,

@@ -13,10 +13,10 @@ class DefaultCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.xxsmall),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(8, 255, 255, 255), // Default card color
-        borderRadius: BorderRadius.circular(AppSpacing.xxsmall),
+        color: const Color.fromARGB(45, 3, 6, 17), // Default card color
+        borderRadius: BorderRadius.circular(12),
         boxShadow: [
           // BoxShadow(
           //   color: Colors.black.withOpacity(0.2),

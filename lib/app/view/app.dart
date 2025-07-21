@@ -1,8 +1,7 @@
 import 'package:app_ui/app_ui.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:focuslab/counter/counter.dart';
 import 'package:focuslab/l10n/l10n.dart';
+import 'package:focuslab/menu/view/menu_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -13,7 +12,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const CounterPage(),
+      home: const MenuPage(),
       color: AppColors.primaryColor,
       theme: AppTheme().themeData,
     );
