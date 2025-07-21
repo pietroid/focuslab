@@ -19,6 +19,7 @@ dependencies:
   youtube_player_iframe: ^5.2.1
 dev_dependencies:
   bloc_test: ^9.1.7
+  flutter_launcher_icons: ^0.14.2
   flutter_test:
     sdk: flutter
   mocktail: ^1.0.4
@@ -27,3 +28,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
