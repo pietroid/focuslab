@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:focuslab/counter/widgets/oscillating_builder.dart';
+import 'package:app_ui/src/oscillating_builder.dart';
 
 class LivingBeing extends StatelessWidget {
   /// when levelOfLife is 0, the being is sick
