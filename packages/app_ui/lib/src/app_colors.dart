@@ -1,9 +1,9 @@
 import 'dart:ui';
 
 class AppColors {
-  static const defaultBackgroundColor = Color(0xFF0C0C0F);
-  static const primaryColor = Color.fromARGB(255, 143, 143, 143);
-  static const defaultCardColor = Color(0xFF1C1C1C);
-  static const defaultCardSecondaryColor = Color(0xFF1C1C1C);
-  static const disabledIconColor = Color.fromARGB(255, 41, 41, 41);
+  static const primaryColor = Color(0xFF00BFA5);
+  static const defaultBackgroundColor = Color(0xFF050526);
+  static const backgroundGradientLightColor = Color.fromARGB(255, 8, 54, 67);
+  static const backgroundGradientDarkColor = Color.fromARGB(255, 5, 5, 35);
+  static const defaultCardColor = const Color.fromARGB(50, 4, 8, 20);
 }

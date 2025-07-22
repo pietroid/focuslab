@@ -15,10 +15,10 @@ class MenuPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               DefaultCard(child: Text('📱  Medidation - Wearable')),
-              SizedBox(height: 4.0), // Spacing between cards
-              DefaultCard(child: Text('🧘‍♀️   Medidation - Computer')),
-              SizedBox(height: 4.0), // Spacing between cards
-              DefaultCard(child: Text('📄   Tablet Scanner')),
+              SizedBox(height: AppSpacing.extraSmall), // Spacing between cards
+              DefaultCard(child: Text('🧘‍♀️  Medidation - Computer')),
+              SizedBox(height: AppSpacing.extraSmall), // Spacing between cards
+              DefaultCard(child: Text('📄  Tablet Scanner')),
             ],
           ),
         ));
