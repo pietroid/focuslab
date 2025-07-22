@@ -1,6 +1,5 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/widgets.dart';
-import 'package:focuslab/counter/widgets/card.dart';
 
 class MenuPage extends StatelessWidget {
   const MenuPage({super.key});

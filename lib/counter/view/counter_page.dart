@@ -2,7 +2,7 @@ import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focuslab/counter/counter.dart';
-import 'package:focuslab/counter/widgets/card.dart';
+import 'package:app_ui/src/default_card.dart';
 import 'package:focuslab/counter/widgets/item.dart';
 import 'package:focuslab/counter/widgets/living_being.dart';
 import 'package:focuslab/l10n/l10n.dart';
@@ -40,7 +40,7 @@ class CounterView extends StatelessWidget {
     return DefaultScaffold(
       title: 'Finance focus lab',
       body: Padding(
-        padding: EdgeInsets.all(AppSpacing.xsmall),
+        padding: EdgeInsets.all(AppSpacing.extraSmall),
         child: Column(
           children: [
             Text('R\$ 200'),

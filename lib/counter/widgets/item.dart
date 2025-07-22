@@ -25,10 +25,10 @@ class Item extends StatelessWidget {
         //   end: Alignment.bottomCenter,
         // ),
         //color: AppColors.primaryColor.withOpacity(0.01),
-        borderRadius: BorderRadius.circular(AppSpacing.xxsmall),
+        borderRadius: BorderRadius.circular(AppSpacing.extraSmall),
       ),
       padding: const EdgeInsets.symmetric(
-          vertical: AppSpacing.xxxsmall, horizontal: AppSpacing.xxsmall),
+          vertical: AppSpacing.extraSmall, horizontal: AppSpacing.extraSmall),
       child: Row(children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
