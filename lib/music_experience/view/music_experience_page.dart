@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focuslab/music_experience/cubit/music_experience_cubit.dart';
+import 'package:focuslab/music_experience/widgets/music_experience_canvas.dart';
 import 'package:music_experience_repository/music_experience_repository.dart';
 
 class MusicExperiencePage extends StatelessWidget {
@@ -13,7 +14,7 @@ class MusicExperiencePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => MusicExperienceCubit(
         musicExperienceRepository: context.read<MusicExperienceRepository>(),
-      )..loadMusic(),
+      )..loadAndPlayMusic(),
       child: DefaultScaffold(
           body: const MusicExperienceView(), title: 'Music Experience'),
     );
@@ -30,7 +31,12 @@ class MusicExperienceView extends StatelessWidget {
         if (state is MusicExperienceLoading) {
           return const Center(child: CircularProgressIndicator());
         } else if (state is MusicExperiencePlaying) {
-          return const Center(child: Text('Now Playing: Track Title'));
+          return Center(
+            child: MusicExperienceCanvas(
+              beat: state.beat,
+              beatProgress: state.beatProgress,
+            ),
+          );
         }
         return const Placeholder();
       },
