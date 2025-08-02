@@ -1,5 +1,6 @@
 import 'package:focuslab/meditation_wearable/view/medidation_wearable_page.dart';
 import 'package:focuslab/menu/view/menu_page.dart';
+import 'package:focuslab/music_experience/view/music_experience_page.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
@@ -15,7 +16,12 @@ class AppRouter {
               path: '/meditation-wearable',
               builder: (context, state) {
                 return const MeditationWearablePage();
-              })
+              }),
+          GoRoute(
+              path: '/music-experience',
+              builder: (context, state) {
+                return const MusicExperiencePage();
+              }),
         ],
       );
 }

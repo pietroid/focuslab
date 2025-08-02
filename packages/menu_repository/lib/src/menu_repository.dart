@@ -6,7 +6,7 @@ import 'package:menu_repository/src/menu_item.dart';
 class MenuRepository {
   ///
   List<MenuItem> getMenuItems() {
-    return [
+    return const [
       MenuItem(
         emoji: '📱',
         title: 'Medidation - Wearable',
@@ -21,6 +21,11 @@ class MenuRepository {
         emoji: '📄',
         title: 'Tablet Scanner',
         route: '/tablet-scanner',
+      ),
+      MenuItem(
+        emoji: '🔊',
+        title: 'Music experience',
+        route: '/music-experience',
       ),
     ];
   }
