@@ -8,6 +8,16 @@ class MenuRepository {
   List<MenuItem> getMenuItems() {
     return const [
       MenuItem(
+        emoji: '🎨',
+        title: 'UI Experience',
+        route: '/ui-experience',
+      ),
+      MenuItem(
+        emoji: '🔊',
+        title: 'Music experience',
+        route: '/music-experience',
+      ),
+      MenuItem(
         emoji: '📱',
         title: 'Medidation - Wearable',
         route: '/meditation-wearable',
@@ -21,11 +31,6 @@ class MenuRepository {
         emoji: '📄',
         title: 'Tablet Scanner',
         route: '/tablet-scanner',
-      ),
-      MenuItem(
-        emoji: '🔊',
-        title: 'Music experience',
-        route: '/music-experience',
       ),
     ];
   }
