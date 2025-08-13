@@ -7,5 +7,7 @@ class AppSpacing {
 
   static const double medium = 16.0;
 
+  static const double large = 24.0;
+
   static const double cardRadius = 12.0;
 }
