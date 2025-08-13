@@ -1,4 +1,5 @@
 import 'package:app_ui/app_ui.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:focuslab/finance/widget/add_button.dart';
 
@@ -16,54 +17,56 @@ class FinanceGoal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(AppSpacing.large),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('$title (R\$ $totalAmount)'),
-              AddButton(),
-            ],
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('$title (R\$ $totalAmount)'),
+            AddButton(),
+          ],
+        ),
+        const SizedBox(height: AppSpacing.small),
+        Container(
+          height: 5,
+          decoration: BoxDecoration(
+            color: AppColors.defaultCardColor,
+            borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
           ),
-          const SizedBox(height: AppSpacing.medium),
-          Container(
-            height: 8,
-            decoration: BoxDecoration(
-              color: AppColors.defaultCardColor,
-              borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-            ),
-            child: Flex(
-              direction: Axis.horizontal,
-              children: [
-                Expanded(
-                  flex: (spent / totalAmount * 100).toInt(),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      borderRadius:
-                          BorderRadius.circular(AppSpacing.cardRadius),
-                    ),
+          child: Flex(
+            direction: Axis.horizontal,
+            children: [
+              Expanded(
+                flex: (spent / totalAmount * 100).toInt(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 195, 81, 81),
+                    borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
                   ),
                 ),
-                Expanded(
-                  flex: 100 - (spent / totalAmount * 100).toInt(),
-                  child: const SizedBox.shrink(),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: AppSpacing.medium),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Gasto R\$ $spent'),
-              Text('Resta R\$ ${totalAmount - spent}'),
+              ),
+              Expanded(
+                flex: 100 - (spent / totalAmount * 100).toInt(),
+                child: const SizedBox.shrink(),
+              ),
             ],
           ),
-        ],
-      ),
+        ),
+        const SizedBox(height: AppSpacing.small),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('Gasto R\$ $spent',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: AppColors.captionColor,
+                    )),
+            Text('Resta R\$ ${totalAmount - spent}',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: AppColors.captionColor,
+                    )),
+          ],
+        ),
+      ],
     );
   }
 }

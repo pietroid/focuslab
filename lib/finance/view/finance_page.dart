@@ -8,13 +8,37 @@ class FinancePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultScaffold(
-        body: Column(children: const [
-          FinanceGoal(
-            title: 'Mercado',
-            totalAmount: 5000.00,
-            spent: 3000.00,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: AppSpacing.large,
+            horizontal: AppSpacing.large,
           ),
-        ]),
+          child: Column(children: const [
+            FinanceGoal(
+              title: '🍎 Mercado',
+              totalAmount: 444.0,
+              spent: 200.00,
+            ),
+            SizedBox(height: AppSpacing.large),
+            FinanceGoal(
+              title: '🛒 Compras',
+              totalAmount: 111.00,
+              spent: 100.00,
+            ),
+            SizedBox(height: AppSpacing.large),
+            FinanceGoal(
+              title: '🛻 99/Uber',
+              totalAmount: 111.00,
+              spent: 100.00,
+            ),
+            SizedBox(height: AppSpacing.large),
+            FinanceGoal(
+              title: 'Outros',
+              totalAmount: 111.00,
+              spent: 100.00,
+            ),
+          ]),
+        ),
         title: 'Finanças');
   }
 }

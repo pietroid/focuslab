@@ -16,15 +16,25 @@ class DefaultScaffold extends StatelessWidget {
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
-            shadowColor: Colors.transparent,
-            title: Text(
-              //textAlign: TextAlign.left,
-              title,
-              style: Theme.of(context).textTheme.headlineSmall,
+          automaticallyImplyLeading: false,
+          shadowColor: Colors.transparent,
+          title: Row(children: [
+            IconButton(
+              icon: const Icon(Icons.arrow_back_ios_new),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
             ),
-            centerTitle: true,
-            backgroundColor: Colors.transparent,
-            elevation: 0),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+          ]),
+          backgroundColor: Colors.transparent,
+          centerTitle: false,
+        ),
         body: Container(
           width: double.infinity,
           height: double.infinity,
