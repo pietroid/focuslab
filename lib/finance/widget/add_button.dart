@@ -3,17 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class AddButton extends StatelessWidget {
-  const AddButton({super.key});
+  AddButton({
+    super.key,
+    this.onPressed,
+  });
+
+  VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.extraSmall),
-      decoration: BoxDecoration(
-        color: AppColors.defaultCardColor,
-        borderRadius: BorderRadius.circular(AppSpacing.medium),
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        padding: const EdgeInsets.all(AppSpacing.extraSmall),
+        decoration: BoxDecoration(
+          color: AppColors.defaultCardColor,
+          borderRadius: BorderRadius.circular(AppSpacing.medium),
+        ),
+        child: Icon(Icons.add, color: Colors.white, size: 24),
       ),
-      child: Icon(Icons.add, color: Colors.white, size: 24),
     );
   }
 }

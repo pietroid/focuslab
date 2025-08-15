@@ -1,21 +1,21 @@
-name: app_ui
+name: finance_repository
 description: A Very Good Project created by Very Good CLI.
 version: 0.1.0+1
 publish_to: none
 
 environment:
-  sdk: ^3.3.0
+  sdk: ^3.5.0
   flutter: ^3.24.0
 
 dependencies:
-  currency_text_input_formatter: ^2.3.0
   flutter:
     sdk: flutter
-  google_fonts: ^6.2.1
-  intl: ^0.19.0
+  objectbox: ^4.3.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   mocktail: ^1.0.4
   very_good_analysis: ^6.0.0
+  build_runner: ^2.5.0
+  objectbox_generator: ^4.3.0

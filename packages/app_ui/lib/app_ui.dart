@@ -9,3 +9,4 @@ export 'src/app_spacing.dart';
 export 'src/default_scaffold.dart';
 export 'src/default_card.dart';
 export 'src/oscillating_builder.dart';
+export 'src/text_field/money_text_field.dart';
