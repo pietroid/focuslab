@@ -1,6 +1,8 @@
 import 'package:finance_repository/objectbox.g.dart';
 import 'package:finance_repository/src/cost.dart';
 import 'package:objectbox/objectbox.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 /// {@template finance_repository}
 /// A Very Good Project created by Very Good CLI.
@@ -12,7 +14,10 @@ class FinanceRepository {
   late Box<Cost> _costBox;
 
   Future<void> initialize() async {
-    final Store store = await openStore(directory: 'finance');
+    final dir = await getApplicationDocumentsDirectory();
+    final Store store = await openStore(
+      directory: p.join(dir.path, 'finance'),
+    );
     _costBox = store.box<Cost>();
   }
 
