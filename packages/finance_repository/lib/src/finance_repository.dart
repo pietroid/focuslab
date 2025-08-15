@@ -41,6 +41,11 @@ class FinanceRepository {
     await _costBox.putAsync(cost);
   }
 
+  /// Removes a cost from the repository.
+  Future<void> removeCost(Cost cost) async {
+    await _costBox.remove(cost.id);
+  }
+
   /// Retrieves all costs from the repository.
   BehaviorSubject<List<Cost>> get costs => _costListSubject;
 }

@@ -47,6 +47,10 @@ class FinanceCubit extends Cubit<FinanceState> {
     );
   }
 
+  void removeCost(Cost cost) {
+    financeRepository.removeCost(cost);
+  }
+
   @override
   Future<void> close() {
     _costsSubscription?.cancel();
