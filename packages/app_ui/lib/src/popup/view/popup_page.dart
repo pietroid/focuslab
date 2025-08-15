@@ -1,3 +1,4 @@
+import 'package:app_ui/src/app_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -18,10 +19,16 @@ class PopupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Dialog.fullscreen(
-        child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: content,
+      child: Padding(
+        padding: EdgeInsets.all(AppSpacing.large),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+          child: Dialog.fullscreen(
+            child: Padding(
+              padding: EdgeInsets.all(AppSpacing.large),
+              child: content,
+            ),
+          ),
         ),
       ),
     );

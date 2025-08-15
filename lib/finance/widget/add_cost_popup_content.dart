@@ -3,6 +3,7 @@ import 'package:finance_repository/finance_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:focuslab/finance/view/categories_mapper.dart';
 import 'package:go_router/go_router.dart';
 
 class AddCostPopupContent extends StatefulWidget {
@@ -21,26 +22,42 @@ class _AddCostPopupContentState extends State<AddCostPopupContent> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text('Adicionar custo para ${widget.category.value}',
+        Text(
+            'Adicionar custo para ${CategoriesMapper().labelByCategory(widget.category)}',
             style: TextTheme.of(context).titleMedium),
         SizedBox(height: AppSpacing.large),
         Text('Valor:'),
         SizedBox(width: 10),
-        MoneyTextField(
-          controller: _amountController,
+        SizedBox(
+          width: 200,
+          child: MoneyTextField(
+            controller: _amountController,
+          ),
         ),
         SizedBox(height: AppSpacing.large),
-        MaterialButton(
-          onPressed: () {
-            final cost =
-                Cost(amount: double.tryParse(_amountController.text) ?? 0);
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MaterialButton(
+              onPressed: () {
+                final cost =
+                    Cost(amount: double.tryParse(_amountController.text) ?? 0);
 
-            cost.category = widget.category;
+                cost.category = widget.category;
 
-            context.read<FinanceRepository>().addCost(cost);
-            context.pop();
-          },
-          child: Text('Salvar'),
+                context.read<FinanceRepository>().addCost(cost);
+                context.pop();
+              },
+              child: Text('Salvar'),
+            ),
+            SizedBox(width: AppSpacing.large),
+            MaterialButton(
+              onPressed: () {
+                context.pop();
+              },
+              child: Text('Cancelar'),
+            ),
+          ],
         ),
       ],
     );
