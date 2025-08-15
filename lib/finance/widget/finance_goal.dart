@@ -1,6 +1,8 @@
 import 'package:app_ui/app_ui.dart';
+import 'package:finance_repository/finance_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:focuslab/finance/view/categories_mapper.dart';
 import 'package:focuslab/finance/widget/add_button.dart';
 import 'package:app_ui/src/popup/view/popup_page.dart';
 import 'package:focuslab/finance/widget/add_cost_popup_content.dart';
@@ -8,12 +10,12 @@ import 'package:focuslab/finance/widget/add_cost_popup_content.dart';
 class FinanceGoal extends StatelessWidget {
   const FinanceGoal({
     super.key,
-    required this.title,
+    required this.category,
     required this.totalAmount,
     this.spent = 0.0,
   });
 
-  final String title;
+  final CostCategory category;
   final double totalAmount;
   final double spent;
 
@@ -24,17 +26,18 @@ class FinanceGoal extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('$title (R\$ $totalAmount)'),
+            Text(
+                '${CategoriesMapper().emojiByCategory(category)} ${CategoriesMapper().labelByCategory(category)} (${totalAmount.formatAsMoney()})'),
             AddButton(onPressed: () {
               PopupPage.show(
                   context: context,
-                  content: AddCostPopupContent(category: title));
+                  content: AddCostPopupContent(category: category));
             }),
           ],
         ),
-        const SizedBox(height: AppSpacing.small),
+        const SizedBox(height: AppSpacing.extraSmall),
         Container(
-          height: 5,
+          height: 4,
           decoration: BoxDecoration(
             color: AppColors.defaultCardColor,
             borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
@@ -46,7 +49,8 @@ class FinanceGoal extends StatelessWidget {
                 flex: (spent / totalAmount * 100).toInt(),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 195, 81, 81),
+                    color: CategoriesMapper()
+                        .barColorByAmountSpent(spent / totalAmount * 100),
                     borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
                   ),
                 ),
@@ -58,15 +62,15 @@ class FinanceGoal extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: AppSpacing.small),
+        const SizedBox(height: AppSpacing.extraSmall),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Gasto R\$ $spent',
+            Text('Gasto ${spent.formatAsMoney()}',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: AppColors.captionColor,
                     )),
-            Text('Resta R\$ ${totalAmount - spent}',
+            Text('Resta ${(totalAmount - spent).formatAsMoney()}',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: AppColors.captionColor,
                     )),

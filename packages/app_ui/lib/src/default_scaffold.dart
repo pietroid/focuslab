@@ -16,6 +16,7 @@ class DefaultScaffold extends StatelessWidget {
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           automaticallyImplyLeading: false,
           shadowColor: Colors.transparent,
           title: Row(children: [

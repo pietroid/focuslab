@@ -13,7 +13,7 @@ extension MoneyFormatter on double {
       decimalDigits: 2,
     );
     final formattedNumber = formatter.format(this);
-    return '\$ $formattedNumber';
+    return 'R\$ $formattedNumber';
   }
 }
 
@@ -46,6 +46,11 @@ extension DateTimeFormatter on DateTime {
 
   String formatAsDateTime() {
     final formatter = DateFormat('dd/MM/yyyy HH:mm');
+    return formatter.format(this);
+  }
+
+  String formatAsTimeAndDate() {
+    final formatter = DateFormat('HH:mm dd/MM');
     return formatter.format(this);
   }
 

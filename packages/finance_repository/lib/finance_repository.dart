@@ -2,3 +2,4 @@
 library;
 
 export 'src/finance_repository.dart';
+export 'src/cost.dart';
