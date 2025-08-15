@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:focuslab/finance/view/categories_mapper.dart';
 import 'package:focuslab/finance/widget/add_button.dart';
-import 'package:app_ui/src/popup/view/popup_page.dart';
 import 'package:focuslab/finance/widget/add_cost_popup_content.dart';
 
 class FinanceGoal extends StatelessWidget {

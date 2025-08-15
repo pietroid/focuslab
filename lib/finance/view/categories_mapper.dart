@@ -6,7 +6,7 @@ class CategoriesMapper {
   String emojiByCategory(CostCategory category) {
     switch (category) {
       case CostCategory.groceries:
-        return '🍔';
+        return '🛒';
       case CostCategory.shopping:
         return '🛍️';
       case CostCategory.transportation:

@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focuslab/finance/cubit/finance_cubit.dart';
 import 'package:focuslab/finance/widget/cost_instance.dart';
+import 'package:focuslab/finance/widget/date_range_label.dart';
 import 'package:focuslab/finance/widget/finance_goal.dart';
 
 class FinancePage extends StatelessWidget {
@@ -26,6 +27,7 @@ class FinanceView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultScaffold(
+        action: DateRangeLabel(),
         body: Padding(
           padding: const EdgeInsets.symmetric(
             vertical: AppSpacing.large,

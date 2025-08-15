@@ -16,7 +16,10 @@ class FinanceCubit extends Cubit<FinanceState> {
   }) : super(
           FinanceState(
             costs: financeRepository.costs.value,
-            goals: calculateGoalsFromCosts(financeRepository.costs.value),
+            goals: calculateGoalsFromCosts(financeRepository.costs.value,
+                DateTime.now(), DateTime.now().add(Duration(days: 7))),
+            startDate: DateTime.now(),
+            endDate: DateTime.now().add(Duration(days: 7)),
           ),
         ) {
     _costsSubscription = financeRepository.costs.listen(updateState);
@@ -26,7 +29,20 @@ class FinanceCubit extends Cubit<FinanceState> {
     emit(
       FinanceState(
         costs: costs,
-        goals: calculateGoalsFromCosts(costs),
+        goals: calculateGoalsFromCosts(costs, state.startDate, state.endDate),
+        startDate: state.startDate,
+        endDate: state.endDate,
+      ),
+    );
+  }
+
+  void updateDateRange(DateTime startDate, DateTime endDate) {
+    emit(
+      FinanceState(
+        costs: state.costs,
+        goals: calculateGoalsFromCosts(state.costs, startDate, endDate),
+        startDate: startDate,
+        endDate: endDate,
       ),
     );
   }
@@ -38,29 +54,37 @@ class FinanceCubit extends Cubit<FinanceState> {
   }
 }
 
-List<Goal> calculateGoalsFromCosts(List<Cost> costs) {
+List<Goal> calculateGoalsFromCosts(
+    List<Cost> costs, DateTime startDate, DateTime endDate) {
+  final totalNumberOfDays = endDate.difference(startDate).inDays;
+  final startDateMidnight =
+      DateTime(startDate.year, startDate.month, startDate.day);
+  final endDateMidnight = DateTime(endDate.year, endDate.month, endDate.day);
   Map<CostCategory, double> categoryTotals = {};
   for (var cost in costs) {
-    categoryTotals[cost.category] =
-        (categoryTotals[cost.category] ?? 0) + cost.amount;
+    if (cost.date.isAfter(startDateMidnight) &&
+        cost.date.isBefore(endDateMidnight)) {
+      categoryTotals[cost.category] =
+          (categoryTotals[cost.category] ?? 0) + cost.amount;
+    }
   }
   // Implement your goal calculation logic here
   return [
     Goal(
         category: CostCategory.groceries,
-        totalAmount: 1000,
+        totalAmount: 66.6 * totalNumberOfDays,
         spent: categoryTotals[CostCategory.groceries] ?? 0),
     Goal(
         category: CostCategory.shopping,
-        totalAmount: 500,
+        totalAmount: 33.33 * totalNumberOfDays,
         spent: categoryTotals[CostCategory.shopping] ?? 0),
     Goal(
         category: CostCategory.transportation,
-        totalAmount: 300,
+        totalAmount: 16.66 * totalNumberOfDays,
         spent: categoryTotals[CostCategory.transportation] ?? 0),
     Goal(
         category: CostCategory.other,
-        totalAmount: 400,
+        totalAmount: 66.6 * totalNumberOfDays,
         spent: categoryTotals[CostCategory.other] ?? 0),
   ];
 }

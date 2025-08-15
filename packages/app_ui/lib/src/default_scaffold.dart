@@ -6,9 +6,11 @@ class DefaultScaffold extends StatelessWidget {
     super.key,
     required this.body,
     required this.title,
+    this.action,
   });
 
   final Widget body;
+  final Widget? action;
   final String title;
 
   @override
@@ -19,6 +21,10 @@ class DefaultScaffold extends StatelessWidget {
           scrolledUnderElevation: 0,
           automaticallyImplyLeading: false,
           shadowColor: Colors.transparent,
+          actions: [
+            if (action != null) action!,
+          ],
+          actionsPadding: const EdgeInsets.only(right: AppSpacing.large),
           title: Row(children: [
             IconButton(
               icon: const Icon(Icons.arrow_back_ios_new),
