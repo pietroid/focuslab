@@ -1,6 +1,7 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:focuslab/finance/widget/add_button.dart';
 
 class NewHomePage extends StatelessWidget {
   const NewHomePage({super.key});
@@ -13,54 +14,42 @@ class NewHomePage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
           vertical: AppSpacing.medium, horizontal: AppSpacing.large),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              children: [
-                Text(
-                  '08:54',
-                  style: textTheme.displayLarge?.copyWith(),
-                ),
-                Text(
-                  'Terça-feira, 26 de agosto',
-                ),
-              ],
+            Text(
+              '11:04',
+              style: textTheme.displayMedium?.copyWith(),
             ),
-            Column(
-              children: [
-                CircularProgressIndicator(
-                  color: AppColors.captionColor,
-                ),
-                Text('Agora: codando focuslab'),
-                Text('Em breve: café da manhã'),
-                Text('pausa'),
-              ],
-            )
+            Text(
+              'Terça-feira, 26 de agosto',
+            ),
+            SizedBox(height: AppSpacing.large),
+            DefaultCard(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Codando focuslab'),
+                      AddButton(),
+                    ],
+                  ),
+                  SizedBox(height: AppSpacing.small),
+                  ProgressBar(progress: 35, maxValue: 100),
+                  SizedBox(height: AppSpacing.small),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('10:00 - 13:00'),
+                      Text('Faltam 1:55'),
+                    ],
+                  )
+                ])),
+            SizedBox(height: AppSpacing.small),
           ],
         ),
-        const SizedBox(height: AppSpacing.large),
-        Text('Notification space'),
-        DefaultCard(
-            child: Text('How are you feeling?', style: textTheme.bodyMedium)),
-        const SizedBox(height: AppSpacing.large),
-        Text('status space'),
-        Text('Finance: 🟢Good'),
-        Text('Tasks: 🟢Good'),
-        Text('Dreams: 🟠Medium'),
-        const SizedBox(height: AppSpacing.large),
-        Text('Hoje', style: textTheme.titleLarge),
-        const SizedBox(height: AppSpacing.large),
-        Text('Pendências', style: textTheme.bodyMedium),
-        const SizedBox(height: AppSpacing.large),
-        Text('Trabalho', style: textTheme.bodyMedium),
-        const SizedBox(height: AppSpacing.large),
-        Text('Lazer', style: textTheme.bodyMedium),
-        const SizedBox(height: AppSpacing.large),
-        Text('Próximos dias', style: textTheme.titleLarge),
-        const SizedBox(height: AppSpacing.large),
-        Text('Notas', style: textTheme.titleLarge),
-        const SizedBox(height: AppSpacing.large),
       ]),
     ));
   }

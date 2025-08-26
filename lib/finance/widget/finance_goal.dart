@@ -35,31 +35,9 @@ class FinanceGoal extends StatelessWidget {
           ],
         ),
         const SizedBox(height: AppSpacing.extraSmall),
-        Container(
-          height: 4,
-          decoration: BoxDecoration(
-            color: AppColors.defaultCardColor,
-            borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-          ),
-          child: Flex(
-            direction: Axis.horizontal,
-            children: [
-              Expanded(
-                flex: (spent / totalAmount * 100).toInt(),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: CategoriesMapper()
-                        .barColorByAmountSpent(spent / totalAmount * 100),
-                    borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 100 - (spent / totalAmount * 100).toInt(),
-                child: const SizedBox.shrink(),
-              ),
-            ],
-          ),
+        ProgressBar(
+          progress: spent,
+          maxValue: totalAmount,
         ),
         const SizedBox(height: AppSpacing.extraSmall),
         Row(

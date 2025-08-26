@@ -28,14 +28,4 @@ class CategoriesMapper {
         return 'Outros';
     }
   }
-
-  Color barColorByAmountSpent(double percentageSpent) {
-    if (percentageSpent < 50) {
-      return const Color.fromARGB(255, 81, 195, 81); // Green
-    } else if (percentageSpent < 80) {
-      return const Color.fromARGB(255, 195, 195, 81); // Yellow
-    } else {
-      return const Color.fromARGB(255, 195, 81, 81); // Red
-    }
-  }
 }
