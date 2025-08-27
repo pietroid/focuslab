@@ -2,6 +2,7 @@ import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:focuslab/finance/widget/add_button.dart';
+import 'package:focuslab/new_home/widgets/analog_clock.dart';
 
 class NewHomePage extends StatelessWidget {
   const NewHomePage({super.key});
@@ -13,44 +14,59 @@ class NewHomePage extends StatelessWidget {
         body: Padding(
       padding: const EdgeInsets.symmetric(
           vertical: AppSpacing.medium, horizontal: AppSpacing.large),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Column(
+      child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '11:04',
-              style: textTheme.displayMedium?.copyWith(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '21:34',
+                            style: textTheme.displayMedium?.copyWith(),
+                          ),
+                          Text(
+                            'Quarta-feira, 26 de agosto',
+                          ),
+                        ]),
+                    Expanded(
+                      child: Container(),
+                    ),
+                    AnalogClock(),
+                  ],
+                ),
+                SizedBox(height: AppSpacing.large),
+                DefaultCard(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Codando focuslab'),
+                          AddButton(),
+                        ],
+                      ),
+                      SizedBox(height: AppSpacing.small),
+                      ProgressBar(progress: 65, maxValue: 100),
+                      SizedBox(height: AppSpacing.small),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('10:00 - 13:00'),
+                          Text('Faltam 1:10'),
+                        ],
+                      )
+                    ])),
+                SizedBox(height: AppSpacing.small),
+              ],
             ),
-            Text(
-              'Terça-feira, 26 de agosto',
-            ),
-            SizedBox(height: AppSpacing.large),
-            DefaultCard(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Codando focuslab'),
-                      AddButton(),
-                    ],
-                  ),
-                  SizedBox(height: AppSpacing.small),
-                  ProgressBar(progress: 35, maxValue: 100),
-                  SizedBox(height: AppSpacing.small),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('10:00 - 13:00'),
-                      Text('Faltam 1:55'),
-                    ],
-                  )
-                ])),
-            SizedBox(height: AppSpacing.small),
-          ],
-        ),
-      ]),
+          ]),
     ));
   }
 }

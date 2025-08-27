@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:finance_repository/finance_repository.dart';
 import 'package:flutter/widgets.dart';
+import 'package:focuslab/new_home/widgets/fragment_provider.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
@@ -24,6 +26,7 @@ class AppBlocObserver extends BlocObserver {
 Future<void> bootstrap(
     FutureOr<Widget> Function({
       required FinanceRepository financeRepository,
+      required AnalogClockFragmentProvider clockFragmentProvider,
     }) builder) async {
   WidgetsFlutterBinding.ensureInitialized();
   FlutterError.onError = (details) {
@@ -37,7 +40,13 @@ Future<void> bootstrap(
   final financeRepository = FinanceRepository();
   await financeRepository.initialize();
 
+  final clockFragmentProgram =
+      await FragmentProgram.fromAsset('shaders/analog_clock_shader.frag');
+
   runApp(await builder(
     financeRepository: financeRepository,
+    clockFragmentProvider: AnalogClockFragmentProvider(
+      fragmentProgram: clockFragmentProgram,
+    ),
   ));
 }
