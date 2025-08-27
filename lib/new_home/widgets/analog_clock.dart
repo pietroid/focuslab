@@ -1,12 +1,9 @@
+import 'dart:math';
 import 'dart:ui';
-import 'dart:ui' as ui;
 
 import 'package:app_ui/app_ui.dart';
-import 'package:flame/game.dart';
-import 'package:flame/geometry.dart';
 import 'package:flutter/material.dart';
 
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +21,6 @@ class _AnalogClockState extends State<AnalogClock>
     with SingleTickerProviderStateMixin {
   late final Ticker _ticker;
   DateTime _now = DateTime.now();
-  late Future<ui.FragmentProgram> program;
 
   @override
   void initState() {
