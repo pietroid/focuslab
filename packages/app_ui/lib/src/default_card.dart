@@ -17,6 +17,7 @@ class DefaultCard extends StatelessWidget {
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.all(AppSpacing.small),
+          width: double.infinity,
           decoration: BoxDecoration(
             color: AppColors.defaultCardColor,
             borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
