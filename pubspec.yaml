@@ -25,6 +25,7 @@ dependencies:
     path: packages/music_experience_repository
   youtube_player_iframe: ^5.2.1
   provider: ^6.1.5+1
+  cupertino_icons: ^1.0.8
 
 dev_dependencies:
   bloc_test: ^9.1.7

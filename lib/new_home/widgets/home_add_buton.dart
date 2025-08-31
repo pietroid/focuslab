@@ -1,4 +1,5 @@
 import 'package:app_ui/app_ui.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeAddButton extends StatelessWidget {
@@ -19,7 +20,7 @@ class HomeAddButton extends StatelessWidget {
           color: const Color.fromARGB(16, 255, 255, 255),
           shape: BoxShape.circle,
         ),
-        child: Icon(Icons.add, color: Colors.white, size: 18),
+        child: Icon(CupertinoIcons.plus, color: Colors.white, size: 18),
       ),
     );
   }

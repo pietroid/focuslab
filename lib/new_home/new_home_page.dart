@@ -2,6 +2,7 @@ import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:focuslab/finance/widget/add_button.dart';
 import 'package:focuslab/new_home/widgets/analog_clock.dart';
+import 'package:focuslab/new_home/widgets/creation_bottom_sheet.dart';
 import 'package:focuslab/new_home/widgets/home_add_buton.dart';
 import 'package:go_router/go_router.dart';
 
@@ -221,7 +222,9 @@ class _NewHomePageState extends State<NewHomePage> {
           Align(
             alignment: Alignment.bottomRight,
             child: HomeAddButton(
-              onPressed: () {},
+              onPressed: () {
+                CreationBottomSheet().show(context);
+              },
             ),
           ),
         ],

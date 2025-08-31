@@ -8,7 +8,7 @@ class AppTheme {
         primaryColor: AppColors.primaryColor,
         scaffoldBackgroundColor: AppColors.defaultBackgroundColor,
         bottomSheetTheme: const BottomSheetThemeData(
-          backgroundColor: AppColors.defaultBackgroundColor,
+          backgroundColor: Colors.transparent,
         ),
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: Colors.white,
