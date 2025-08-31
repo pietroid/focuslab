@@ -3,8 +3,10 @@ import 'dart:ui';
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:focuslab/new_home/widgets/duration_selector_popup.dart';
 import 'package:focuslab/new_home/widgets/grouped_options.dart';
 import 'package:focuslab/new_home/widgets/home_add_buton.dart';
+import 'package:focuslab/new_home/widgets/time_selector_popup.dart';
 
 class CreationBottomSheet {
   CreationBottomSheet();
@@ -110,7 +112,7 @@ class CreationBottomSheetWidget extends StatelessWidget {
                                       onTap: () {
                                         PopupPage.show(
                                             context: context,
-                                            content: Container());
+                                            content: TimeSelectorPopup());
                                       }),
                                   const OptionInfo(
                                     icon: CupertinoIcons.play_arrow_solid,
@@ -118,15 +120,19 @@ class CreationBottomSheetWidget extends StatelessWidget {
                                   ),
                                 ]),
                             const SizedBox(width: AppSpacing.extraSmall),
-                            const GroupedOptions(
+                            GroupedOptions(
                               initialSelectedIndex: 0,
                               expanded: true,
                               options: [
                                 OptionInfo(
-                                  icon: CupertinoIcons.timer,
-                                  label: '15 min',
-                                ),
-                                OptionInfo(
+                                    icon: CupertinoIcons.timer,
+                                    label: '00:15',
+                                    onTap: () {
+                                      PopupPage.show(
+                                          context: context,
+                                          content: DurationSelectorPopup());
+                                    }),
+                                const OptionInfo(
                                   icon: CupertinoIcons.loop,
                                 ),
                               ],

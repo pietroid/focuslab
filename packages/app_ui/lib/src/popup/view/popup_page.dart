@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:app_ui/src/app_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -23,10 +25,18 @@ class PopupPage extends StatelessWidget {
         padding: EdgeInsets.all(AppSpacing.large),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-          child: Dialog.fullscreen(
-            child: Padding(
-              padding: EdgeInsets.all(AppSpacing.large),
-              child: content,
+          child: Container(
+            color: const Color.fromARGB(14, 255, 255, 255),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(
+                  sigmaX: 8, sigmaY: 8, tileMode: TileMode.clamp),
+              child: Dialog.fullscreen(
+                backgroundColor: Colors.transparent,
+                child: Padding(
+                  padding: EdgeInsets.all(AppSpacing.large),
+                  child: content,
+                ),
+              ),
             ),
           ),
         ),

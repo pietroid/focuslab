@@ -12,3 +12,4 @@ export 'src/oscillating_builder.dart';
 export 'src/widgets/text_field/money_text_field.dart';
 export 'src/widgets/progress_bar.dart';
 export 'src/popup/view/popup_page.dart';
+export 'src/widgets/button.dart';
