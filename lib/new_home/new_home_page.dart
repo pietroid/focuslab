@@ -1,4 +1,5 @@
 import 'package:app_ui/app_ui.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:focuslab/finance/widget/add_button.dart';
 import 'package:focuslab/new_home/widgets/analog_clock.dart';
@@ -56,42 +57,127 @@ class _NewHomePageState extends State<NewHomePage> {
                     ),
                     SizedBox(height: AppSpacing.small),
                     if (showRecommendations)
-                      Row(
-                        children: [
-                          DefaultCard(
-                            child: SizedBox(
-                              height: 100,
-                              width: 100,
-                              child: Column(
-                                children: [
-                                  Text('💰 Financeiro'),
-                                  SizedBox(height: AppSpacing.small),
-                                  Text('R\$ 200,00 de mercado até dia 30',
-                                      style: textTheme.bodySmall?.copyWith(
-                                        color: AppColors.captionColor,
-                                      )),
+                      SingleChildScrollView(
+                        clipBehavior: Clip.none,
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            DefaultCard(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color.fromARGB(53, 255, 0, 0),
+                                  Color.fromARGB(39, 255, 119, 0)
                                 ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                              child: SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      '4',
+                                      textAlign: TextAlign.center,
+                                      style: textTheme.displaySmall?.copyWith(
+                                          color: const Color.fromARGB(
+                                              208, 255, 118, 20)),
+                                    ),
+                                    Text(
+                                      'Dias sem academia',
+                                      textAlign: TextAlign.center,
+                                      style: textTheme.bodyLarge?.copyWith(
+                                          color: const Color.fromARGB(
+                                              208, 255, 184, 133)),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(width: AppSpacing.small),
-                          DefaultCard(
-                            child: SizedBox(
-                              height: 100,
-                              width: 100,
-                              child: Column(
-                                children: [
-                                  Text('🏃‍♂️ Saúde'),
-                                  SizedBox(height: AppSpacing.small),
-                                  Text('3 litros de água hoje',
-                                      style: textTheme.bodySmall?.copyWith(
-                                        color: AppColors.captionColor,
-                                      )),
+                            SizedBox(width: AppSpacing.small),
+                            DefaultCard(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color.fromARGB(31, 255, 153, 0),
+                                  Color.fromARGB(39, 153, 255, 0)
                                 ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                              child: SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      '3',
+                                      textAlign: TextAlign.center,
+                                      style: textTheme.displaySmall?.copyWith(
+                                          color: const Color.fromARGB(
+                                              208, 255, 201, 101)),
+                                    ),
+                                    Text(
+                                      'Pendências',
+                                      textAlign: TextAlign.center,
+                                      style: textTheme.bodyLarge?.copyWith(
+                                          color: const Color.fromARGB(
+                                              208, 255, 220, 114)),
+                                    ),
+                                    Text('Resolva em 1h',
+                                        style: textTheme.bodySmall?.copyWith(
+                                          color: const Color.fromARGB(
+                                              137, 255, 227, 47),
+                                        )),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                            SizedBox(width: AppSpacing.small),
+                            DefaultCard(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color.fromARGB(53, 0, 255, 4),
+                                  Color.fromARGB(39, 0, 255, 217)
+                                ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                              child: SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'R\$ 300',
+                                      textAlign: TextAlign.center,
+                                      style: textTheme.titleMedium?.copyWith(
+                                          color: const Color.fromARGB(
+                                              208, 20, 255, 145)),
+                                    ),
+                                    Text(
+                                      'Para gastar',
+                                      textAlign: TextAlign.center,
+                                      style: textTheme.bodyLarge?.copyWith(
+                                          color: const Color.fromARGB(
+                                              208, 133, 255, 176)),
+                                    ),
+                                    Text('Até segunda',
+                                        style: textTheme.bodySmall?.copyWith(
+                                          color: const Color.fromARGB(
+                                              137, 47, 255, 161),
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     SizedBox(height: AppSpacing.large),
                     Text('Ainda hoje', style: textTheme.titleLarge),
