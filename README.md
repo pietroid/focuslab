@@ -1,5 +1,7 @@
 # Focuslab
 
-Informational human organicity.
+<div align="center">
+    <img src="./logo.png" alt="Focuslab Logo" width="200"/>
+</div>
 
-![Focuslab Logo](./focus-logo.png)
+Informational human organicity.
