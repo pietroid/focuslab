@@ -2,4 +2,4 @@
 
 Informational human organicity.
 
-![Focuslab Logo](./focuslab-logo.png)
+![Focuslab Logo](./focus-logo.png)
