@@ -1,0 +1,54 @@
+name: focuslab
+description: A Very Good Project created by Very Good CLI.
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  app_ui:
+    path: ../../packages/app_ui
+  bloc: ^8.1.4
+  finance_repository:
+    path: ../../packages/finance_repository
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.1.6
+  flutter_localizations:
+    sdk: flutter
+  go_router: ^16.0.0
+  intl: ^0.19.0
+  menu_repository:
+    path: ../../packages/menu_repository
+  music_experience_repository:
+    path: ../../packages/music_experience_repository
+  youtube_player_iframe: ^5.2.1
+  provider: ^6.1.5+1
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  bloc_test: ^9.1.7
+  flutter_launcher_icons: ^0.14.2
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.4
+  
+  very_good_analysis: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - assets/music/
+  shaders:
+    - shaders/analog_clock_shader.frag
+
+flutter_launcher_icons:
+  macos:
+      generate: true
+      image_path: "assets/icon/icon.png"
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21

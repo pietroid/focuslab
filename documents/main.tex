@@ -2,6 +2,7 @@
 
 \usepackage{sectsty}
 \usepackage{graphicx}
+\usepackage{hyperref}
 
 % Margins
 \topmargin=-0.40in
@@ -290,6 +291,66 @@ Também preciso reservar tempo para o que realmente desejo fazer e estudar. Prec
 
 Novamente, me atrapalhei um pouco no trabalho. Mas a gente faz o que pode. O que importa para mim são as coisas que não coloquei aqui, como meditação, academia. Consegui me sentir muito bem com isso e acho que isso já é uma grande vitória.
 
+\subsection{17/01 - Sábado}
+
+Hoje é um dia de grande alegria. Pois estou realmente livre para fazer o que eu preciso fazer para mim. Sem desculpas e sem outros compromissos.\\
+
+Ontem estive pensando em algumas coisas para hoje:
+
+\begin{itemize}
+    \item O tempo é realmente como um trem. Cada coisa tem seu timing determinado por ciclos naturais, biológicos e mentais, e tendo consciência deles, conseguimos agarrar o trem que nos conduz de forma natural a algum estado útil.
+    \item Enquanto estava indo dormir, visualizei um protótipo que é um carrossel com itens gigantes (quase do tamanho da tela), e cada item tem uma lista. Isso seria um calendário em uma forma mais intuitiva e que é polivalente (também é uma lista de tarefas, etc.).
+    \item Sei que tenho meu compromisso com esse meu diário mas agora estou sentindo a real necessidade de colocar isso em algo concreto no App.
+\end{itemize}
+
+Pois agora vamos utilizar o horário até o almoço para planejar/executar algumas coisas para o focuslab.\\
+
+Delineando como vou alocar meu tempo até o almoço de hoje:
+
+\begin{itemize}
+    \item 15 minutos: Planejamento da estrutura básica
+    \item 30 minutos: Execução da estrutura
+    \item 10 minutos: Pausa e recomposição.
+\end{itemize}
+
+\subsubsection{Focuslab - Estrutura do projeto}
+
+Estrutura básica do Focuslab será um monorepo com dois Apps: 
+
+\begin{itemize}
+    \item Focus
+    \item Lab
+\end{itemize}
+
+O monorepo terá pacotes comuns em {\tt packages}, assim como todo projeto Flutter.\\
+
+\subsubsection{Focuslab - Solução de dados}
+
+Já usei \href{https://pub.dev/packages/objectbox}{ObjectBox} como solução para banco de dados local (como queria algo offline first). \\
+
+Porém, fiquei um pouco desapontado com o fato que muita coisa tive que fazer na mão (como a conversão de data), e também a manipulação de objetos que não são imutáveis pode ficar bem bagunçado ao longo do tempo já que a gente não sabe quando o objeto foi atualizado realmente no banco de dados ou se temos que atualizar na mão.\\
+
+Por isso, quero utilizar qualquer solução em que eu só precise de um modelo que possa ser convertido para um JSON. Apenas isso. Toda a abstração ao redor, pode ou ser construída ou ser substituída por qualquer coisa.\\
+
+Podemos tratar a arquitetura e prototipar com alguma solução na próxima sessão de 1h.
+
+\subsubsection{Focuslab - UI}
+
+Devemos ter um Design system consistente para o focuslab. Ele estará como um pacote em {\tt packages}.\\\\
+Podemos também fazer uma primeira iteração dele em uma outra seção de 1h.
+
+\subsubsection{Primeira entrega}
+
+Devemos prototipar uma primeira entrega do focuslab, ainda dentro do contexto experimental (lab) com as coisas principais que queremos para ele, como:
+
+\begin{itemize}
+    \item Adição de tarefas
+    \item Criação de listas
+\end{itemize}
+
+Vamos dividir em duas partes: reservar 1h para prototipar algo rude e outra 1h depois da pesquisa de dados e UI para refinar e deixar o código pronto.\\\\
+
+Ou seja, serão 4h distribuídas ao longo do dia de trabalho no Focuslab.
 
 %--/Paper--
 

@@ -1,3 +1,5 @@
 # Focuslab
 
-Laboratory for the focus project.
+Informational human organicity.
+
+![Focuslab Logo](./focuslab-logo.png)
