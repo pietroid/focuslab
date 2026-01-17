@@ -5,11 +5,13 @@ class DefaultCard extends StatelessWidget {
   const DefaultCard({
     super.key,
     required this.child,
+    this.gradient,
     this.onTap,
   });
 
   final Widget child;
   final VoidCallback? onTap;
+  final Gradient? gradient;
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +19,16 @@ class DefaultCard extends StatelessWidget {
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.all(AppSpacing.small),
-          decoration: BoxDecoration(
-            color: AppColors.defaultCardColor,
-            borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-            boxShadow: [
-              // BoxShadow(
-              //   color: Colors.black.withOpacity(0.2),
-              //   blurRadius: 1.0,
-              //   offset: const Offset(0, 4), // Shadow position
-              // ),
-            ],
-          ),
+          //width: double.infinity,
+          decoration: gradient != null
+              ? BoxDecoration(
+                  gradient: gradient,
+                  borderRadius: BorderRadius.circular(30),
+                )
+              : BoxDecoration(
+                  color: AppColors.defaultCardColor,
+                  borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+                ),
           child: child,
         ));
   }
