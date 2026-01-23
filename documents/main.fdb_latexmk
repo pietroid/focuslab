@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1768659940.54507 "/Users/pietroteruya/dev/focuslab/documents/main.tex" "main.pdf" "main" 1768659941.11873 0
-  "/Users/pietroteruya/dev/focuslab/documents/main.tex" 1768659940.3637 23301 5eaf6d917f9e3640bb6f380cd8893821 ""
+["pdflatex"] 1769210715.45174 "/Users/pietroteruya/dev/focuslab/documents/main.tex" "main.pdf" "main" 1769210715.86554 0
+  "/Users/pietroteruya/dev/focuslab/documents/main.tex" 1769210715.27561 36759 cf2033c80654ce4c923a94a30080d6f7 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1095.tfm" 1136768653 1536 02c06700a42be0f5a28664c7273f82e7 ""
@@ -68,9 +68,9 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1765736932 5541377 0af08d58b046ada1f2a2c7d4825ab417 ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1765737129 3635734 d3a29ef335fe09572c7d90906063b44c ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
-  "main.aux" 1768659941.07955 3607 4b2686af486404052c5842ce120a3471 "pdflatex"
-  "main.out" 1768659941.07993 4237 d43b07e479698fb4be48d81dfed5b6ea "pdflatex"
-  "main.tex" 1768659940.3637 23301 5eaf6d917f9e3640bb6f380cd8893821 ""
+  "main.aux" 1769210715.81435 4016 5f68ae2f4f8b4e7bf20b1aa116d1df9e "pdflatex"
+  "main.out" 1769210715.81471 4802 cd904d6cc972ff1f5031095d401b52f7 "pdflatex"
+  "main.tex" 1769210715.27561 36759 cf2033c80654ce4c923a94a30080d6f7 ""
   (generated)
   "main.aux"
   "main.log"
