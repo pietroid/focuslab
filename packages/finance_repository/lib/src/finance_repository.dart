@@ -16,7 +16,7 @@ class FinanceRepository {
   late BehaviorSubject<List<Cost>> _costListSubject;
 
   Future<void> initialize() async {
-    final dir = await getApplicationDocumentsDirectory();
+    final dir = await getApplicationSupportDirectory();
     final store = await openStore(
       directory: p.join(dir.path, 'finance'),
     );

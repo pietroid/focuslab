@@ -7,6 +7,7 @@ class MenuRepository {
   ///
   List<MenuItem> getMenuItems() {
     return const [
+      MenuItem(emoji: '🖥️', title: 'Dashboard', route: '/dashboard'),
       MenuItem(emoji: '📱', title: 'New Home', route: '/new-home'),
       MenuItem(
         emoji: '💰',
