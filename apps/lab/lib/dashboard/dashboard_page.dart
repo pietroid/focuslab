@@ -15,8 +15,8 @@ class DashboardPage extends StatelessWidget {
       child: const DefaultScaffold(
           body: Stack(
         children: [
-          DashboardHeader(),
           FocusCenter(),
+          DashboardHeader(),
         ],
       )),
     );

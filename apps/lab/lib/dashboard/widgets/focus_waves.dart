@@ -4,9 +4,17 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focuslab/dashboard/bloc/time_bloc.dart';
 
-const coreRadius = 200;
-const numberOfWaves = 6;
-const spacingBetweenWaves = 300.0;
+/// Radius of the inner clock
+const coreRadius = 100;
+
+/// Number of waves to display
+const numberOfWaves = 100;
+
+/// Distance in pixels between the clock and the first wave
+const spacingOfFirstWave = 10000;
+
+/// Time increment in minutes for each wave (e.g., 10 means a wave every 10 minutes).
+const Duration timeIncrement = Duration(minutes: 1);
 
 class FocusWaves extends StatelessWidget {
   const FocusWaves({super.key});
@@ -16,63 +24,94 @@ class FocusWaves extends StatelessWidget {
     return BlocBuilder<TimeBloc, TimeState>(builder: (context, state) {
       final now = state.now;
 
-      final nextMinute = DateTime(
-        now.year,
-        now.month,
-        now.day,
-        now.hour,
-        now.minute + 1,
-      );
-
-      final millisecondsUntilNextMinute =
-          nextMinute.difference(now).inMilliseconds;
-
-      final distanceInPixelsToNextWave =
-          (millisecondsUntilNextMinute / 60000) * spacingBetweenWaves;
-
       return Container(
         width: double.infinity,
         height: double.infinity,
         child: Stack(
           fit: StackFit.expand,
-          children: [
-            for (int i = 0; i < numberOfWaves; i++)
-              CenterCircleCanvas(
-                label:
-                    '${getNextMinuteIncrement(now, i + 1).hour.toString().padLeft(2, '0')}:${getNextMinuteIncrement(now, i + 1).minute.toString().padLeft(2, '0')}',
-                diameter: coreRadius +
-                    (i * spacingBetweenWaves) +
-                    distanceInPixelsToNextWave,
-                color: Color.fromARGB(255, 255, 255, 255)
-                    .withOpacity(pow(1 - (i / numberOfWaves), 2).toDouble()),
-              ),
-          ],
+          children: generateWaves(now),
         ),
       );
     });
   }
 }
 
-DateTime getNextMinuteIncrement(DateTime now, int increment) {
-  return DateTime(
-    now.year,
-    now.month,
-    now.day,
-    now.hour,
-    now.minute + increment,
-  );
+List<CenterCircleCanvas> generateWaves(DateTime now) {
+  final waves = <CenterCircleCanvas>[];
+
+  final timePoints = calculateNextTimeIncrementsGrid(now, numberOfWaves);
+
+  for (int i = 0; i < numberOfWaves; i++) {
+    /// Calculate the next time increment based on the current time and the time increment
+    final nextTimeDifference = timePoints[i].difference(now).inMilliseconds;
+
+    final totalIncrementDifferenceInMs = timeIncrement.inMilliseconds;
+
+    /// Calculate the distance from the basal radius
+    /// (Linear)
+    final distanceFromCore = pow(
+        nextTimeDifference * spacingOfFirstWave / totalIncrementDifferenceInMs,
+        0.5);
+
+    final radius = coreRadius + distanceFromCore;
+
+    final showLabel = i % 5 == 0; // Show label for every 5th wave
+
+    /// Create a new wave with the calculated radius and label
+    final circle = CenterCircleCanvas(
+      label: showLabel
+          ? '${timePoints[i].hour.toString().padLeft(2, '0')}:${timePoints[i].minute.toString().padLeft(2, '0')}'
+          : null,
+      diameter: radius * 2,
+      color: showLabel
+          ? Color.fromARGB(255, 251, 255, 255)
+              .withOpacity(pow(1 - (i / numberOfWaves), 2).toDouble())
+          : Color.fromARGB(255, 30, 89, 95)
+              .withOpacity(pow(1 - (i / numberOfWaves), 2).toDouble()),
+    );
+
+    waves.add(circle);
+  }
+
+  return waves;
+}
+
+List<DateTime> calculateNextTimeIncrementsGrid(
+    DateTime now, int numberOfPoints) {
+  final points = <DateTime>[];
+
+  /// get the current time at midnight
+  final nowMidnight = DateTime(now.year, now.month, now.day);
+
+  DateTime firstPoint = nowMidnight;
+
+  /// gets the next closest time according to the currentTime
+  while (firstPoint.isBefore(now)) {
+    firstPoint = firstPoint.add(timeIncrement);
+  }
+
+  /// add the first point to the list
+  points.add(firstPoint);
+
+  /// add the next points to the list
+  for (int i = 1; i < numberOfPoints; i++) {
+    firstPoint = firstPoint.add(timeIncrement);
+    points.add(firstPoint);
+  }
+
+  return points;
 }
 
 class CenterCircleCanvas extends StatelessWidget {
   final double diameter;
   final Color color;
-  final String label;
+  final String? label;
 
   const CenterCircleCanvas({
     Key? key,
     this.diameter = 100,
-    this.color = const Color(0xFF2196F3),
-    required this.label,
+    required this.color,
+    this.label,
   }) : super(key: key);
 
   @override
@@ -84,13 +123,14 @@ class CenterCircleCanvas extends StatelessWidget {
           size: Size(diameter, diameter),
           painter: _CenterCirclePainter(diameter: diameter, color: color),
         ),
-        Transform.translate(
-          offset: Offset(diameter / 2 - 30, 0),
-          child: Text(
-            label,
-            style: TextStyle(fontSize: 15, color: color),
+        if (label != null)
+          Transform.translate(
+            offset: Offset(diameter / 2 - 30, 0),
+            child: Text(
+              label!,
+              style: TextStyle(fontSize: 15, color: color),
+            ),
           ),
-        ),
       ],
     );
   }
@@ -107,7 +147,7 @@ class _CenterCirclePainter extends CustomPainter {
     final paint = Paint()
       ..color = color
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 5;
+      ..strokeWidth = 2;
     final center = Offset(size.width / 2, size.height / 2);
     canvas.drawCircle(center, diameter / 2, paint);
   }
