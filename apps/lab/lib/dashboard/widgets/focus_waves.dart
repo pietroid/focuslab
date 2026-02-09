@@ -8,10 +8,10 @@ import 'package:focuslab/dashboard/bloc/time_bloc.dart';
 const coreRadius = 100;
 
 /// Number of waves to display
-const numberOfWaves = 100;
+const numberOfWaves = 200;
 
 /// Distance in pixels between the clock and the first wave
-const spacingOfFirstWave = 10000;
+const spacingOfFirstWave = 1000;
 
 /// Time increment in minutes for each wave (e.g., 10 means a wave every 10 minutes).
 const Duration timeIncrement = Duration(minutes: 1);
@@ -49,9 +49,14 @@ List<CenterCircleCanvas> generateWaves(DateTime now) {
 
     /// Calculate the distance from the basal radius
     /// (Linear)
-    final distanceFromCore = pow(
-        nextTimeDifference * spacingOfFirstWave / totalIncrementDifferenceInMs,
-        0.5);
+    final t =
+        nextTimeDifference * spacingOfFirstWave / totalIncrementDifferenceInMs;
+
+    final v0 = 100.0; // Initial velocity (pixels per second)
+    final alpha = 0.101; // Damping factor (0 < alpha < 1)
+
+    final distanceFromCore = v0 / alpha -
+        v0 / alpha * exp(-alpha * t / 1000); // Damped distance calculation
 
     final radius = coreRadius + distanceFromCore;
 
