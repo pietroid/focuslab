@@ -8,13 +8,20 @@ import 'package:focuslab/dashboard/bloc/time_bloc.dart';
 const coreRadius = 100;
 
 /// Number of waves to display
-const numberOfWaves = 200;
-
-/// Distance in pixels between the clock and the first wave
-const spacingOfFirstWave = 1000;
+const numberOfWaves = 300;
 
 /// Time increment in minutes for each wave (e.g., 10 means a wave every 10 minutes).
 const Duration timeIncrement = Duration(minutes: 1);
+
+double r(
+  int t,
+  int inflectionPoint,
+  double alpha,
+) {
+  /// velocity at 0, px per ms
+  final v0 = alpha / (inflectionPoint - alpha);
+  return alpha * log((v0 * t) / alpha + 1);
+}
 
 class FocusWaves extends StatelessWidget {
   const FocusWaves({super.key});
@@ -36,7 +43,18 @@ class FocusWaves extends StatelessWidget {
   }
 }
 
-List<CenterCircleCanvas> generateWaves(DateTime now) {
+List<CenterCircleCanvas> generateWaves(
+  DateTime now,
+) {
+  /// Base in minutes of the logarythimic equation.
+  final base = 60 * 1000 * 0.01;
+
+  /// Alpha constant used in the equation, this is the definition.
+  final alpha = 1 / log(base);
+
+  /// Inflection point of 1 minute.
+  final inflectionPoint = (60 * 1000 * 0.02).toInt();
+
   final waves = <CenterCircleCanvas>[];
 
   final timePoints = calculateNextTimeIncrementsGrid(now, numberOfWaves);
@@ -45,18 +63,8 @@ List<CenterCircleCanvas> generateWaves(DateTime now) {
     /// Calculate the next time increment based on the current time and the time increment
     final nextTimeDifference = timePoints[i].difference(now).inMilliseconds;
 
-    final totalIncrementDifferenceInMs = timeIncrement.inMilliseconds;
-
-    /// Calculate the distance from the basal radius
-    /// (Linear)
-    final t =
-        nextTimeDifference * spacingOfFirstWave / totalIncrementDifferenceInMs;
-
-    final v0 = 100.0; // Initial velocity (pixels per second)
-    final alpha = 0.101; // Damping factor (0 < alpha < 1)
-
-    final distanceFromCore = v0 / alpha -
-        v0 / alpha * exp(-alpha * t / 1000); // Damped distance calculation
+    final distanceFromCore =
+        r(nextTimeDifference, inflectionPoint, alpha) * 400;
 
     final radius = coreRadius + distanceFromCore;
 
