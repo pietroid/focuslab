@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:focuslab/dashboard/widgets/clock.dart';
-import 'package:focuslab/dashboard/widgets/focus_waves.dart';
+import 'package:focuslab/dashboard/widgets/focus_grid.dart';
 
 class FocusCenter extends StatelessWidget {
   const FocusCenter({super.key});
@@ -13,7 +13,7 @@ class FocusCenter extends StatelessWidget {
       child: const Stack(
         fit: StackFit.expand,
         children: [
-          FocusWaves(),
+          FocusGrid(),
           CenterCircleCanvas(
             diameter: 200,
             color: Color.fromARGB(255, 255, 255, 255),
