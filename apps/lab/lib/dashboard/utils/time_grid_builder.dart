@@ -91,7 +91,7 @@ class TimeGridBuilder {
           gridConfiguration.base,
         );
 
-    for (var i = 0; i < 100; i++) {
+    for (var i = 0; i < 200; i++) {
       /// calculate delta time
       currentDeltaTime = yieldNextDeltaTime(now, currentDeltaTime, timeWidth);
 

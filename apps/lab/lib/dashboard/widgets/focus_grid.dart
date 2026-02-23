@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focuslab/dashboard/bloc/time_bloc.dart';
-import 'package:focuslab/dashboard/utils/time_grid_builder.dart';
 
 class FocusGrid extends StatelessWidget {
   const FocusGrid({super.key});
@@ -52,7 +51,8 @@ List<CenterCircleCanvas> generateGrid(
     final radius = points[i] + coreRadius;
 
     final maxRadius = points[points.length - 1];
-    final alpha = pow((maxRadius - (radius - coreRadius)) / maxRadius, 2);
+    final alpha =
+        pow((maxRadius - (radius - coreRadius)) / maxRadius, 3).clamp(0, 1);
 
     /// Create a new wave with the calculated radius and label
     final circle = CenterCircleCanvas(
