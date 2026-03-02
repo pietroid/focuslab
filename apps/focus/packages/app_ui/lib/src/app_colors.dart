@@ -6,4 +6,6 @@ class AppColors {
   static const defaultCardColor = Color(0xFF1C1C1C);
   static const defaultCardSecondaryColor = Color(0xFF1C1C1C);
   static const disabledIconColor = Color.fromARGB(255, 41, 41, 41);
+  static const backgroundGradientLightColor = Color.fromARGB(255, 8, 54, 67);
+  static const backgroundGradientDarkColor = Color.fromARGB(255, 5, 5, 35);
 }

@@ -35,8 +35,6 @@
       "type": "dart",
       "program": "apps/focus/lib/main.dart",
       "args": [
-        "--flavor",
-        "development",
         "--target",
         "lib/main.dart"
       ]
@@ -47,8 +45,6 @@
       "type": "dart",
       "program": "apps/focus/lib/main.dart",
       "args": [
-        "--flavor",
-        "development",
         "--target",
         "lib/main.dart",
         "--profile",
