@@ -1,3 +1,4 @@
+import 'package:focuslab/dashboard/dashboard_page.dart';
 import 'package:focuslab/finance/view/finance_page.dart';
 import 'package:focuslab/meditation_wearable/view/medidation_wearable_page.dart';
 import 'package:focuslab/menu/view/menu_page.dart';
@@ -8,11 +9,18 @@ import 'package:go_router/go_router.dart';
 
 class AppRouter {
   static final GoRouter _router = GoRouter(
+    initialLocation: '/dashboard',
     routes: [
       GoRoute(
         path: '/',
         builder: (context, state) {
           return const MenuPage();
+        },
+      ),
+      GoRoute(
+        path: '/dashboard',
+        builder: (context, state) {
+          return const DashboardPage();
         },
       ),
       GoRoute(
