@@ -30,27 +30,27 @@
       ]
     },
     {
-      "name": "Launch Focus (DEV)",
+      "name": "Launch Focus",
       "request": "launch",
       "type": "dart",
-      "program": "apps/focus/lib/main_development.dart",
+      "program": "apps/focus/lib/main.dart",
       "args": [
         "--flavor",
         "development",
         "--target",
-        "lib/main_development.dart"
+        "lib/main.dart"
       ]
     },
     {
-      "name": "Launch Focus (DEV) Profile",
+      "name": "Launch Focus Profile",
       "request": "launch",
       "type": "dart",
-      "program": "apps/focus/lib/main_development.dart",
+      "program": "apps/focus/lib/main.dart",
       "args": [
         "--flavor",
         "development",
         "--target",
-        "lib/main_development.dart",
+        "lib/main.dart",
         "--profile",
       ]
     },
