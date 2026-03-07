@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 class App extends StatelessWidget {
   const App({required this.router, super.key});
+
   final GoRouter router;
 
   @override

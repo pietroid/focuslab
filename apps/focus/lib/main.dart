@@ -10,8 +10,6 @@ void main() {
   bootstrap(() async {
     Intl.defaultLocale = 'pt_BR';
     await initializeDateFormatting('pt_BR');
-    return App(
-      router: AppRouter().router,
-    );
+    return App(router: AppRouter().router);
   });
 }
