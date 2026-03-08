@@ -84,8 +84,8 @@ class EventBox extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [
-                Color.fromARGB(255, 4, 123, 119),
-                Color.fromARGB(255, 2, 88, 117),
+                Color.fromARGB(56, 8, 255, 247),
+                Color.fromARGB(26, 5, 193, 255),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomCenter,
@@ -93,7 +93,7 @@ class EventBox extends StatelessWidget {
             borderRadius: BorderRadius.circular(4),
             boxShadow: const [
               BoxShadow(
-                color: Color.fromARGB(48, 0, 0, 0),
+                color: Color.fromARGB(47, 0, 0, 0),
                 blurRadius: 30,
                 spreadRadius: 10,
                 offset: Offset(0, 0),
@@ -108,7 +108,7 @@ class EventBox extends StatelessWidget {
               Text(
                 event.name,
                 style: textTheme.bodyMedium?.copyWith(
-                  color: const Color.fromARGB(255, 2, 27, 19),
+                  color: const Color.fromARGB(255, 200, 255, 238),
                   fontWeight: FontWeight.w500,
                   fontSize: 13,
                 ),
@@ -117,7 +117,7 @@ class EventBox extends StatelessWidget {
               Text(
                 _fmtDuration(displayStart, displayEnd),
                 style: textTheme.labelSmall?.copyWith(
-                  color: const Color.fromARGB(255, 2, 33, 46),
+                  color: const Color.fromARGB(255, 0, 176, 251),
                   fontWeight: FontWeight.w100,
                 ),
               ),
