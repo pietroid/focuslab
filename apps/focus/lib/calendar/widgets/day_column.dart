@@ -1,7 +1,10 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:focus/calendar/bloc/drag_grid_bloc.dart';
 import 'package:focus/calendar/calendar.dart';
 import 'package:focus/calendar/widgets/hourly_grid.dart';
+import 'package:focus/events/events.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -36,21 +39,29 @@ class _DayColumnState extends State<DayColumn> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return MultiProvider(
+    return MultiBlocProvider(
       providers: [
-        Provider<DayData>.value(value: widget.data),
-        ListenableProvider<ScrollController>.value(value: scrollController),
+        BlocProvider(
+          create: (context) =>
+              DragGridBloc(eventsBloc: context.read<EventsBloc>()),
+        ),
       ],
-      child: SizedBox(
-        width: 400,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(widget.data.name, style: textTheme.headlineMedium),
-            Text(widget.data.dayOfTheMonth, style: textTheme.headlineSmall),
-            SizedBox(height: AppSpacing.lg),
-            const Expanded(child: HourlyGrid()),
-          ],
+      child: MultiProvider(
+        providers: [
+          Provider<DayData>.value(value: widget.data),
+          ListenableProvider<ScrollController>.value(value: scrollController),
+        ],
+        child: SizedBox(
+          width: 400,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(widget.data.name, style: textTheme.headlineMedium),
+              Text(widget.data.dayOfTheMonth, style: textTheme.headlineSmall),
+              SizedBox(height: AppSpacing.lg),
+              const Expanded(child: HourlyGrid()),
+            ],
+          ),
         ),
       ),
     );

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus/calendar/bloc/calendar_bloc.dart';
+import 'package:focus/calendar/bloc/drag_grid_bloc.dart';
 import 'package:focus/calendar/calendar.dart';
 import 'package:focus/calendar/utils/calendar_settings.dart';
 import 'package:focus/calendar/widgets/drag_handler.dart';
@@ -10,58 +11,18 @@ import 'package:focus/calendar/widgets/event_box.dart';
 import 'package:focus/calendar/widgets/hour_unit.dart';
 import 'package:focus/events/events.dart';
 
-class HourlyGrid extends StatefulWidget {
+class HourlyGrid extends StatelessWidget {
   const HourlyGrid({super.key});
-
-  @override
-  State<HourlyGrid> createState() => _HourlyGridState();
-}
-
-class _HourlyGridState extends State<HourlyGrid> {
-  DateTime? _dragStartTime;
-  DateTime? _dragCurrentTime;
 
   bool _isSameDay(DateTime a, DateTime b) =>
       a.year == b.year && a.month == b.month && a.day == b.day;
 
-  void _onStartDragTime(DateTime time) {
-    setState(() {
-      _dragStartTime = time;
-      _dragCurrentTime = time;
-    });
-  }
-
-  void _onDragUpdate(DateTime time) {
-    setState(() => _dragCurrentTime = time);
-  }
-
-  void _onEndDragTime(DateTime time) {
-    final start = _dragStartTime;
-    if (start != null) {
-      final actualStart = start.isBefore(time) ? start : time;
-      final actualEnd = start.isBefore(time) ? time : start;
-      if (actualStart != actualEnd) {
-        context.read<EventsBloc>().add(
-          EventAdded(
-            event: Event(
-              id: DateTime.now().millisecondsSinceEpoch.toString(),
-              name: 'New Event',
-              startDate: actualStart,
-              endDate: actualEnd,
-            ),
-          ),
-        );
-      }
-    }
-    setState(() {
-      _dragStartTime = null;
-      _dragCurrentTime = null;
-    });
-  }
-
-  Widget _buildDragPreview(double scrollOffset) {
-    final start = _dragStartTime!;
-    final current = _dragCurrentTime!;
+  Widget _buildDragPreview(
+    DragGridState dragState,
+    double scrollOffset,
+  ) {
+    final start = dragState.startTime!;
+    final current = dragState.currentTime!;
     final actualStart = start.isBefore(current) ? start : current;
     final actualEnd = start.isBefore(current) ? current : start;
     final startFraction = actualStart.hour + actualStart.minute / 60.0;
@@ -102,54 +63,67 @@ class _HourlyGridState extends State<HourlyGrid> {
                     .where((e) => _isSameDay(e.startDate, dayData.hours.first))
                     .toList();
 
-            return CalendarDragHandler(
-              onStartDragTime: _onStartDragTime,
-              onEndDragTime: _onEndDragTime,
-              onDragUpdate: _onDragUpdate,
-              child: Stack(
-                children: [
-                  ListView.builder(
-                    physics: const _SnapScrollPhysics(
-                      itemExtent: CalendarSettings.hourUnitHeight,
-                    ),
-                    itemExtent: CalendarSettings.hourUnitHeight,
-                    itemCount: dayData.hours.length,
-                    itemBuilder: (context, index) {
-                      final hour = dayData.hours[index];
-                      final nowFraction =
-                          isToday && hour.hour == now.hour
-                              ? (now.minute * 60 + now.second) / 3600.0
-                              : null;
-                      return HourUnit(
-                        startTime: hour,
-                        nowFraction: nowFraction,
-                      );
-                    },
-                  ),
-                  AnimatedBuilder(
-                    animation: scrollController,
-                    builder: (context, _) {
-                      final scrollOffset = scrollController.hasClients
-                          ? scrollController.offset
-                          : 0.0;
-                      return IgnorePointer(
-                        child: Stack(
-                          children: [
-                            for (final event in dayEvents)
-                              EventBox(
-                                event: event,
-                                scrollOffset: scrollOffset,
-                              ),
-                            if (_dragStartTime != null &&
-                                _dragCurrentTime != null)
-                              _buildDragPreview(scrollOffset),
-                          ],
+            return BlocBuilder<DragGridBloc, DragGridState>(
+              builder: (context, dragState) {
+                final bloc = context.read<DragGridBloc>();
+
+                return CalendarDragHandler(
+                  onStartDragTime: (time) => bloc.add(DragStarted(time: time)),
+                  onEndDragTime: (time) => bloc.add(DragEnded(time: time)),
+                  onDragUpdate: (time) => bloc.add(DragUpdated(time: time)),
+                  child: Stack(
+                    children: [
+                      ListView.builder(
+                        controller: scrollController,
+                        physics:
+                            dragState.isDragging
+                                ? const NeverScrollableScrollPhysics()
+                                : const _SnapScrollPhysics(
+                                  itemExtent: CalendarSettings.hourUnitHeight,
+                                ),
+                        itemExtent: CalendarSettings.hourUnitHeight,
+                        itemCount: dayData.hours.length,
+                        itemBuilder: (context, index) {
+                          final hour = dayData.hours[index];
+                          final nowFraction =
+                              isToday && hour.hour == now.hour
+                                  ? (now.minute * 60 + now.second) / 3600.0
+                                  : null;
+                          return HourUnit(
+                            startTime: hour,
+                            nowFraction: nowFraction,
+                          );
+                        },
+                      ),
+                      Positioned.fill(
+                        child: IgnorePointer(
+                          child: AnimatedBuilder(
+                            animation: scrollController,
+                            builder: (context, _) {
+                              final scrollOffset =
+                                  scrollController.hasClients
+                                      ? scrollController.offset
+                                      : 0.0;
+                              return Stack(
+                                children: [
+                                  for (final event in dayEvents)
+                                    EventBox(
+                                      event: event,
+                                      scrollOffset: scrollOffset,
+                                    ),
+                                  if (dragState.startTime != null &&
+                                      dragState.currentTime != null)
+                                    _buildDragPreview(dragState, scrollOffset),
+                                ],
+                              );
+                            },
+                          ),
                         ),
-                      );
-                    },
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                );
+              },
             );
           },
         );
