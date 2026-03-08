@@ -22,26 +22,29 @@ class AppRouter {
         },
       ),
       GoRoute(
-          path: '/finance',
-          builder: (context, state) {
-            return const FinancePage();
-          }),
+        path: '/finance',
+        builder: (context, state) {
+          return const FinancePage();
+        },
+      ),
       GoRoute(
-          path: '/meditation-wearable',
-          builder: (context, state) {
-            return const MeditationWearablePage();
-          }),
+        path: '/meditation-wearable',
+        builder: (context, state) {
+          return const MeditationWearablePage();
+        },
+      ),
       GoRoute(
-          path: '/music-experience',
-          builder: (context, state) {
-            return const MusicExperiencePage();
-          }),
+        path: '/music-experience',
+        builder: (context, state) {
+          return const MusicExperiencePage();
+        },
+      ),
       GoRoute(
         path: '/ui-experience',
         builder: (context, state) {
           return const UIExperiencePage();
         },
-      )
+      ),
     ],
   );
 

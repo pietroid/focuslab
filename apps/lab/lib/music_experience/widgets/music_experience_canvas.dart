@@ -5,9 +5,9 @@ import 'package:focuslab/counter/widgets/living_being.dart';
 
 class MusicExperienceCanvas extends StatelessWidget {
   const MusicExperienceCanvas({
-    super.key,
     required this.beat,
     required this.beatProgress,
+    super.key,
   });
 
   final int beat;

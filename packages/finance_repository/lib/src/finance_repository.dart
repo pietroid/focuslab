@@ -24,7 +24,7 @@ class FinanceRepository {
     _setupCostList();
   }
 
-  _setupCostList() {
+  void _setupCostList() {
     final sortedList = _costBox.getAll()
       ..sort((a, b) => b.date.compareTo(a.date));
     _costListSubject = BehaviorSubject.seeded(sortedList);
@@ -43,7 +43,7 @@ class FinanceRepository {
 
   /// Removes a cost from the repository.
   Future<void> removeCost(Cost cost) async {
-    await _costBox.remove(cost.id);
+    _costBox.remove(cost.id);
   }
 
   /// Retrieves all costs from the repository.

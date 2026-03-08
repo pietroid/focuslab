@@ -39,17 +39,19 @@ class _GroupedOptionsState extends State<GroupedOptions> {
 
     //Group
     return Container(
-        padding: const EdgeInsets.all(AppSpacing.extraSmall),
-        decoration: BoxDecoration(
-          color: AppColors.defaultButtonColor,
-          borderRadius: BorderRadius.circular(100),
-        ),
-        child: Row(
-            mainAxisSize: widget.expanded ? MainAxisSize.max : MainAxisSize.min,
-            mainAxisAlignment: widget.expanded
-                ? MainAxisAlignment.spaceBetween
-                : MainAxisAlignment.start,
-            children: optionsWidgets));
+      padding: const EdgeInsets.all(AppSpacing.extraSmall),
+      decoration: BoxDecoration(
+        color: AppColors.defaultButtonColor,
+        borderRadius: BorderRadius.circular(100),
+      ),
+      child: Row(
+        mainAxisSize: widget.expanded ? MainAxisSize.max : MainAxisSize.min,
+        mainAxisAlignment: widget.expanded
+            ? MainAxisAlignment.spaceBetween
+            : MainAxisAlignment.start,
+        children: optionsWidgets,
+      ),
+    );
   }
 }
 
@@ -86,16 +88,18 @@ class _OptionState extends State<Option> {
               : Colors.transparent,
           borderRadius: BorderRadius.circular(100),
         ),
-        child: Row(children: [
-          Icon(widget.icon, color: Colors.white, size: 16),
-          if (widget.label != null) ...[
-            const SizedBox(width: 4),
-            Text(
-              widget.label!,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-          ]
-        ]),
+        child: Row(
+          children: [
+            Icon(widget.icon, color: Colors.white, size: 16),
+            if (widget.label != null) ...[
+              const SizedBox(width: 4),
+              Text(
+                widget.label!,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }

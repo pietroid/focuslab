@@ -6,6 +6,6 @@ class AppColors {
   static const defaultBackgroundColor = Color(0xFF050526);
   static const backgroundGradientLightColor = Color.fromARGB(255, 8, 54, 67);
   static const backgroundGradientDarkColor = Color.fromARGB(255, 5, 5, 35);
-  static const defaultCardColor = const Color.fromARGB(50, 4, 8, 20);
+  static const defaultCardColor = Color.fromARGB(50, 4, 8, 20);
   static const defaultButtonColor = Color.fromARGB(23, 255, 255, 255);
 }

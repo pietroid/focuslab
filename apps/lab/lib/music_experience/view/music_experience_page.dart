@@ -15,8 +15,10 @@ class MusicExperiencePage extends StatelessWidget {
       create: (context) => MusicExperienceCubit(
         musicExperienceRepository: context.read<MusicExperienceRepository>(),
       )..loadAndPlayMusic(),
-      child: DefaultScaffold(
-          body: const MusicExperienceView(), title: 'Music Experience'),
+      child: const DefaultScaffold(
+        body: MusicExperienceView(),
+        title: 'Music Experience',
+      ),
     );
   }
 }

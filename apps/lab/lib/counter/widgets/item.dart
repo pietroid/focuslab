@@ -28,29 +28,37 @@ class Item extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSpacing.extraSmall),
       ),
       padding: const EdgeInsets.symmetric(
-          vertical: AppSpacing.extraSmall, horizontal: AppSpacing.extraSmall),
-      child: Row(children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('${date.formatAsSimpleDate()}',
-                style: Theme.of(context).textTheme.headlineSmall),
-            Text(date.dayOfWeek().capitalize(),
+        vertical: AppSpacing.extraSmall,
+        horizontal: AppSpacing.extraSmall,
+      ),
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                date.formatAsSimpleDate(),
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              Text(
+                date.dayOfWeek().capitalize(),
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: AppColors.primaryColor.withOpacity(0.7),
-                    )),
-          ],
-        ),
-        Expanded(
-          child: const SizedBox.shrink(),
-        ),
-        Text(
-          text,
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: AppColors.primaryColor.withOpacity(0.7),
+                    ),
               ),
-        ),
-      ]),
+            ],
+          ),
+          const Expanded(
+            child: SizedBox.shrink(),
+          ),
+          Text(
+            text,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: AppColors.primaryColor.withOpacity(0.7),
+                ),
+          ),
+        ],
+      ),
     );
   }
 }

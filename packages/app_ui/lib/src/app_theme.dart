@@ -17,30 +17,30 @@ class AppTheme {
         ),
         useMaterial3: true,
         textTheme: GoogleFonts.onestTextTheme(
-                ThemeData(brightness: Brightness.dark).textTheme)
-            .copyWith(
-                // displayMedium: const TextStyle(
-                //   fontSize: 40,
-                //   color: Colors.white,
-                // ),
-                // headlineLarge: const TextStyle(
-                //   fontSize: 30,
-                //   color: Colors.white,
-                // ),
-                // headlineMedium: const TextStyle(
-                //   fontSize: 20,
-                //   fontWeight: FontWeight.bold,
-                // ),
-                // bodyMedium: const TextStyle(
-                //   fontSize: 14,
-                //   color: Colors.white,
-                //   fontWeight: FontWeight.w400,
-                // ),
-                // bodySmall: const TextStyle(
-                //   fontSize: 12,
-                //   letterSpacing: 0.1,
-                //   color: Color.fromARGB(217, 255, 255, 255),
-                // ),
-                ),
+          ThemeData(brightness: Brightness.dark).textTheme,
+        ).copyWith(
+            // displayMedium: const TextStyle(
+            //   fontSize: 40,
+            //   color: Colors.white,
+            // ),
+            // headlineLarge: const TextStyle(
+            //   fontSize: 30,
+            //   color: Colors.white,
+            // ),
+            // headlineMedium: const TextStyle(
+            //   fontSize: 20,
+            //   fontWeight: FontWeight.bold,
+            // ),
+            // bodyMedium: const TextStyle(
+            //   fontSize: 14,
+            //   color: Colors.white,
+            //   fontWeight: FontWeight.w400,
+            // ),
+            // bodySmall: const TextStyle(
+            //   fontSize: 12,
+            //   letterSpacing: 0.1,
+            //   color: Color.fromARGB(217, 255, 255, 255),
+            // ),
+            ),
       );
 }

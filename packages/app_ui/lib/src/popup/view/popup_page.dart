@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class PopupPage extends StatelessWidget {
-  final Widget content;
   const PopupPage({
     super.key,
     required this.content,
   });
+  final Widget content;
 
   static void show({required BuildContext context, required Widget content}) {
     showDialog(
@@ -22,18 +22,21 @@ class PopupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(AppSpacing.large),
+        padding: const EdgeInsets.all(AppSpacing.large),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-          child: Container(
+          child: ColoredBox(
             color: const Color.fromARGB(14, 255, 255, 255),
             child: BackdropFilter(
               filter: ImageFilter.blur(
-                  sigmaX: 8, sigmaY: 8, tileMode: TileMode.clamp),
+                sigmaX: 8,
+                sigmaY: 8,
+                tileMode: TileMode.clamp,
+              ),
               child: Dialog.fullscreen(
                 backgroundColor: Colors.transparent,
                 child: Padding(
-                  padding: EdgeInsets.all(AppSpacing.large),
+                  padding: const EdgeInsets.all(AppSpacing.large),
                   child: content,
                 ),
               ),

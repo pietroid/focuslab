@@ -7,10 +7,6 @@ import 'package:meta/meta.dart';
 part 'finance_state.dart';
 
 class FinanceCubit extends Cubit<FinanceState> {
-  final FinanceRepository financeRepository;
-
-  StreamSubscription<List<Cost>>? _costsSubscription;
-
   FinanceCubit({
     required this.financeRepository,
   }) : super(
@@ -24,6 +20,9 @@ class FinanceCubit extends Cubit<FinanceState> {
         ) {
     _costsSubscription = financeRepository.costs.listen(updateState);
   }
+  final FinanceRepository financeRepository;
+
+  StreamSubscription<List<Cost>>? _costsSubscription;
 
   void updateState(List<Cost> costs) {
     emit(
@@ -59,13 +58,16 @@ class FinanceCubit extends Cubit<FinanceState> {
 }
 
 List<Goal> calculateGoalsFromCosts(
-    List<Cost> costs, DateTime startDate, DateTime endDate) {
+  List<Cost> costs,
+  DateTime startDate,
+  DateTime endDate,
+) {
   final totalNumberOfDays = endDate.difference(startDate).inDays;
   final startDateMidnight =
       DateTime(startDate.year, startDate.month, startDate.day);
   final endDateMidnight = DateTime(endDate.year, endDate.month, endDate.day);
-  Map<CostCategory, double> categoryTotals = {};
-  for (var cost in costs) {
+  var categoryTotals = <CostCategory, double>{};
+  for (final cost in costs) {
     if (cost.date.isAfter(startDateMidnight) &&
         cost.date.isBefore(endDateMidnight)) {
       categoryTotals[cost.category] =
@@ -75,20 +77,24 @@ List<Goal> calculateGoalsFromCosts(
   // Implement your goal calculation logic here
   return [
     Goal(
-        category: CostCategory.groceries,
-        totalAmount: 66.6 * totalNumberOfDays,
-        spent: categoryTotals[CostCategory.groceries] ?? 0),
+      category: CostCategory.groceries,
+      totalAmount: 66.6 * totalNumberOfDays,
+      spent: categoryTotals[CostCategory.groceries] ?? 0,
+    ),
     Goal(
-        category: CostCategory.shopping,
-        totalAmount: 33.33 * totalNumberOfDays,
-        spent: categoryTotals[CostCategory.shopping] ?? 0),
+      category: CostCategory.shopping,
+      totalAmount: 33.33 * totalNumberOfDays,
+      spent: categoryTotals[CostCategory.shopping] ?? 0,
+    ),
     Goal(
-        category: CostCategory.transportation,
-        totalAmount: 16.66 * totalNumberOfDays,
-        spent: categoryTotals[CostCategory.transportation] ?? 0),
+      category: CostCategory.transportation,
+      totalAmount: 16.66 * totalNumberOfDays,
+      spent: categoryTotals[CostCategory.transportation] ?? 0,
+    ),
     Goal(
-        category: CostCategory.other,
-        totalAmount: 66.6 * totalNumberOfDays,
-        spent: categoryTotals[CostCategory.other] ?? 0),
+      category: CostCategory.other,
+      totalAmount: 66.6 * totalNumberOfDays,
+      spent: categoryTotals[CostCategory.other] ?? 0,
+    ),
   ];
 }

@@ -34,28 +34,29 @@ class _ChangeDateRangePopupContentState
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Data inicial'),
+                const Text('Data inicial'),
                 ElevatedButton(
-                    onPressed: () async {
-                      final newStartDate = await showDatePicker(
-                        context: context,
-                        initialDate: startDate,
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2100),
-                      );
-                      if (newStartDate != null) {
-                        setState(() {
-                          startDate = newStartDate;
-                        });
-                      }
-                    },
-                    child: Text(startDate.formatAsSimpleDate())),
+                  onPressed: () async {
+                    final newStartDate = await showDatePicker(
+                      context: context,
+                      initialDate: startDate,
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2100),
+                    );
+                    if (newStartDate != null) {
+                      setState(() {
+                        startDate = newStartDate;
+                      });
+                    }
+                  },
+                  child: Text(startDate.formatAsSimpleDate()),
+                ),
               ],
             ),
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Data final'),
+                const Text('Data final'),
                 ElevatedButton(
                   onPressed: () async {
                     final newEndDate = await showDatePicker(
@@ -73,7 +74,7 @@ class _ChangeDateRangePopupContentState
                   child: Text(endDate.formatAsSimpleDate()),
                 ),
               ],
-            )
+            ),
           ],
         ),
         const SizedBox(height: 16),

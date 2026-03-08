@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 class DefaultCard extends StatelessWidget {
   const DefaultCard({
-    super.key,
     required this.child,
+    super.key,
     this.gradient,
     this.onTap,
   });
@@ -16,20 +16,21 @@ class DefaultCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.all(AppSpacing.small),
-          //width: double.infinity,
-          decoration: gradient != null
-              ? BoxDecoration(
-                  gradient: gradient,
-                  borderRadius: BorderRadius.circular(30),
-                )
-              : BoxDecoration(
-                  color: AppColors.defaultCardColor,
-                  borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-                ),
-          child: child,
-        ));
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(AppSpacing.small),
+        //width: double.infinity,
+        decoration: gradient != null
+            ? BoxDecoration(
+                gradient: gradient,
+                borderRadius: BorderRadius.circular(30),
+              )
+            : BoxDecoration(
+                color: AppColors.defaultCardColor,
+                borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+              ),
+        child: child,
+      ),
+    );
   }
 }

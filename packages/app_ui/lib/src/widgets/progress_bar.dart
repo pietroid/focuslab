@@ -2,13 +2,13 @@ import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class ProgressBar extends StatelessWidget {
-  final double progress;
-  final double maxValue;
   const ProgressBar({
     super.key,
     required this.progress,
     required this.maxValue,
   });
+  final double progress;
+  final double maxValue;
 
   Color barColorByAmountSpent(double percentageSpent) {
     if (percentageSpent < 50) {

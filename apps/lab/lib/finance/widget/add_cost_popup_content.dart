@@ -7,7 +7,7 @@ import 'package:focuslab/finance/view/categories_mapper.dart';
 import 'package:go_router/go_router.dart';
 
 class AddCostPopupContent extends StatefulWidget {
-  const AddCostPopupContent({super.key, required this.category});
+  const AddCostPopupContent({required this.category, super.key});
 
   final CostCategory category;
 
@@ -23,18 +23,19 @@ class _AddCostPopupContentState extends State<AddCostPopupContent> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-            'Adicionar custo para ${CategoriesMapper().labelByCategory(widget.category)}',
-            style: TextTheme.of(context).titleMedium),
-        SizedBox(height: AppSpacing.large),
-        Text('Valor:'),
-        SizedBox(width: 10),
+          'Adicionar custo para ${CategoriesMapper().labelByCategory(widget.category)}',
+          style: TextTheme.of(context).titleMedium,
+        ),
+        const SizedBox(height: AppSpacing.large),
+        const Text('Valor:'),
+        const SizedBox(width: 10),
         SizedBox(
           width: 200,
           child: MoneyTextField(
             controller: _amountController,
           ),
         ),
-        SizedBox(height: AppSpacing.large),
+        const SizedBox(height: AppSpacing.large),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -48,14 +49,14 @@ class _AddCostPopupContentState extends State<AddCostPopupContent> {
                 context.read<FinanceRepository>().addCost(cost);
                 context.pop();
               },
-              child: Text('Salvar'),
+              child: const Text('Salvar'),
             ),
-            SizedBox(width: AppSpacing.large),
+            const SizedBox(width: AppSpacing.large),
             MaterialButton(
               onPressed: () {
                 context.pop();
               },
-              child: Text('Cancelar'),
+              child: const Text('Cancelar'),
             ),
           ],
         ),

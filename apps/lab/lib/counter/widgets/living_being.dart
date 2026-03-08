@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:app_ui/src/oscillating_builder.dart';
 
 class LivingBeing extends StatelessWidget {
+  const LivingBeing({super.key, required this.levelOfLife});
+
   /// when levelOfLife is 0, the being is sick
   /// when levelOfLife is 1, the being is in the best condition
   final double levelOfLife;
-  const LivingBeing({super.key, required this.levelOfLife});
 
   @override
   Widget build(BuildContext context) {
@@ -27,33 +28,33 @@ class LivingBeing extends StatelessWidget {
 
     /// Alive and well
     return OscillatingBuilder(
-        minValue: 1.1 - oscilationAmplitude * 0.1,
-        maxValue: 1.1 + oscilationAmplitude * 0.1,
-        period: 6.0,
-        phase: 0.1,
-        builder: (context, widthSignal, staticChild) {
-          return OscillatingBuilder(
-              minValue: 20.0 - oscilationAmplitude * 10.0,
-              maxValue: 20.0 + oscilationAmplitude * 10.0,
-              period: 6.0,
-              phase: 0.0,
-              builder: (context, blurSignal, staticChild) {
-                return Container(
-                  width: width * widthSignal,
-                  height: width * widthSignal,
-                  decoration: BoxDecoration(
-                    color: color,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: glowColor,
-                        blurRadius: blurSignal,
-                        offset: const Offset(0, 0), // Shadow position
-                      ),
-                    ],
+      minValue: 1.1 - oscilationAmplitude * 0.1,
+      maxValue: 1.1 + oscilationAmplitude * 0.1,
+      period: 6,
+      phase: 0.1,
+      builder: (context, widthSignal, staticChild) {
+        return OscillatingBuilder(
+          minValue: 20.0 - oscilationAmplitude * 10.0,
+          maxValue: 20.0 + oscilationAmplitude * 10.0,
+          period: 6,
+          builder: (context, blurSignal, staticChild) {
+            return Container(
+              width: width * widthSignal,
+              height: width * widthSignal,
+              decoration: BoxDecoration(
+                color: color,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: glowColor,
+                    blurRadius: blurSignal,
                   ),
-                );
-              });
-        });
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 }

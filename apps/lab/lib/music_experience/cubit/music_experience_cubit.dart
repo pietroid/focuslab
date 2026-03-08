@@ -7,15 +7,14 @@ import 'package:music_experience_repository/music_experience_repository.dart';
 part 'music_experience_state.dart';
 
 class MusicExperienceCubit extends Cubit<MusicExperienceState> {
-  StreamSubscription<Duration>? _positionSubscription;
-
   MusicExperienceCubit({
     required this.musicExperienceRepository,
   }) : super(MusicExperienceInitial());
+  StreamSubscription<Duration>? _positionSubscription;
 
   final MusicExperienceRepository musicExperienceRepository;
 
-  void loadAndPlayMusic() async {
+  Future<void> loadAndPlayMusic() async {
     emit(MusicExperienceLoading());
     try {
       await musicExperienceRepository.loadMusic();
@@ -23,9 +22,11 @@ class MusicExperienceCubit extends Cubit<MusicExperienceState> {
       _positionSubscription = musicExperienceRepository.positionStream.listen(
         updatePosition,
       );
-      emit(MusicExperiencePlaying(
-        totalDuration: musicExperienceRepository.musicDuration,
-      ));
+      emit(
+        MusicExperiencePlaying(
+          totalDuration: musicExperienceRepository.musicDuration,
+        ),
+      );
     } catch (error) {
       emit(MusicExperienceError(error.toString()));
     }

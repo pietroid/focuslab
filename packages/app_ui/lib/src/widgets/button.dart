@@ -2,7 +2,7 @@ import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
-  const Button({super.key, required this.label, this.destructive = false});
+  const Button({required this.label, super.key, this.destructive = false});
 
   final String label;
   final bool destructive;
@@ -11,7 +11,9 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-          vertical: AppSpacing.small, horizontal: AppSpacing.medium),
+        vertical: AppSpacing.small,
+        horizontal: AppSpacing.medium,
+      ),
       decoration: BoxDecoration(
         color: AppColors.defaultButtonColor,
         borderRadius: BorderRadius.circular(100),

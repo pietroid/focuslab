@@ -1,6 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:focuslab/app/app.dart';
-import 'package:focuslab/counter/counter.dart';
 
 void main() {
   group('App', () {

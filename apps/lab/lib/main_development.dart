@@ -9,7 +9,8 @@ void main() {
     required AnalogClockFragmentProvider clockFragmentProvider,
   }) {
     return App(
-        financeRepository: financeRepository,
-        clockFragmentProvider: clockFragmentProvider);
+      financeRepository: financeRepository,
+      clockFragmentProvider: clockFragmentProvider,
+    );
   });
 }

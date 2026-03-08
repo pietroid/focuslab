@@ -12,9 +12,9 @@ class MusicExperienceRepository {
   late final AudioPlayer player = AudioPlayer();
 
   /// BPM of the music.
-  double get bpm => 101.0;
+  double get bpm => 101;
 
-  double get beatOffsetMillis => 0.0;
+  double get beatOffsetMillis => 0;
 
   /// Load the music from assets
   Future<void> loadMusic() async {

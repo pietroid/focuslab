@@ -19,25 +19,27 @@ class TimeSelectorPopup extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text('Selecione um horário',
-            style: Theme.of(context).textTheme.titleLarge),
-        SizedBox(height: AppSpacing.medium),
+        Text(
+          'Selecione um horário',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        const SizedBox(height: AppSpacing.medium),
         SizedBox(
           height: 150,
           child: CupertinoDatePicker(
-              minimumDate: nextDateTimeDivisibleByFiveMinutes(),
-              initialDateTime: nextDateTimeDivisibleByFiveMinutes(),
-              minuteInterval: 5,
-              use24hFormat: true,
-              mode: CupertinoDatePickerMode.time,
-              onDateTimeChanged: (DateTime newDateTime) {
-                // Handle date/time changes
-              }),
+            minimumDate: nextDateTimeDivisibleByFiveMinutes(),
+            initialDateTime: nextDateTimeDivisibleByFiveMinutes(),
+            minuteInterval: 5,
+            use24hFormat: true,
+            mode: CupertinoDatePickerMode.time,
+            onDateTimeChanged: (DateTime newDateTime) {
+              // Handle date/time changes
+            },
+          ),
         ),
-        SizedBox(height: AppSpacing.medium),
-        Row(
+        const SizedBox(height: AppSpacing.medium),
+        const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Button(

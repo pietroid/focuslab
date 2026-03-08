@@ -20,7 +20,7 @@ class AddButton extends StatelessWidget {
           color: AppColors.defaultCardColor,
           borderRadius: BorderRadius.circular(AppSpacing.medium),
         ),
-        child: Icon(Icons.add, color: Colors.white, size: 24),
+        child: const Icon(Icons.add, color: Colors.white, size: 24),
       ),
     );
   }

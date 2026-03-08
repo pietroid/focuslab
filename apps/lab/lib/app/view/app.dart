@@ -12,14 +12,13 @@ import 'package:music_experience_repository/music_experience_repository.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
-  final FinanceRepository financeRepository;
-  final AnalogClockFragmentProvider clockFragmentProvider;
-
   const App({
     super.key,
     required this.financeRepository,
     required this.clockFragmentProvider,
   });
+  final FinanceRepository financeRepository;
+  final AnalogClockFragmentProvider clockFragmentProvider;
 
   @override
   Widget build(BuildContext context) {

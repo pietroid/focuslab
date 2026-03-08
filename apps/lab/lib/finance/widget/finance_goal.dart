@@ -8,9 +8,9 @@ import 'package:focuslab/finance/widget/add_cost_popup_content.dart';
 
 class FinanceGoal extends StatelessWidget {
   const FinanceGoal({
-    super.key,
     required this.category,
     required this.totalAmount,
+    super.key,
     this.spent = 0.0,
   });
 
@@ -26,12 +26,16 @@ class FinanceGoal extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-                '${CategoriesMapper().emojiByCategory(category)} ${CategoriesMapper().labelByCategory(category)} (${totalAmount.formatAsMoney()})'),
-            AddButton(onPressed: () {
-              PopupPage.show(
+              '${CategoriesMapper().emojiByCategory(category)} ${CategoriesMapper().labelByCategory(category)} (${totalAmount.formatAsMoney()})',
+            ),
+            AddButton(
+              onPressed: () {
+                PopupPage.show(
                   context: context,
-                  content: AddCostPopupContent(category: category));
-            }),
+                  content: AddCostPopupContent(category: category),
+                );
+              },
+            ),
           ],
         ),
         const SizedBox(height: AppSpacing.extraSmall),
@@ -43,14 +47,18 @@ class FinanceGoal extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Gasto ${spent.formatAsMoney()}',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.captionColor,
-                    )),
-            Text('Resta ${(totalAmount - spent).formatAsMoney()}',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.captionColor,
-                    )),
+            Text(
+              'Gasto ${spent.formatAsMoney()}',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: AppColors.captionColor,
+                  ),
+            ),
+            Text(
+              'Resta ${(totalAmount - spent).formatAsMoney()}',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: AppColors.captionColor,
+                  ),
+            ),
           ],
         ),
       ],

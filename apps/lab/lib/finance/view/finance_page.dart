@@ -27,42 +27,49 @@ class FinanceView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultScaffold(
-        action: DateRangeLabel(),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: AppSpacing.large,
-            horizontal: AppSpacing.large,
-          ),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            ...context.watch<FinanceCubit>().state.goals.map((goal) => Padding(
-                  padding: const EdgeInsets.only(bottom: AppSpacing.medium),
-                  child: FinanceGoal(
-                    category: goal.category,
-                    totalAmount: goal.totalAmount,
-                    spent: goal.spent,
+      action: const DateRangeLabel(),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: AppSpacing.large,
+          horizontal: AppSpacing.large,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ...context.watch<FinanceCubit>().state.goals.map(
+                  (goal) => Padding(
+                    padding: const EdgeInsets.only(bottom: AppSpacing.medium),
+                    child: FinanceGoal(
+                      category: goal.category,
+                      totalAmount: goal.totalAmount,
+                      spent: goal.spent,
+                    ),
                   ),
-                )),
-            SizedBox(height: AppSpacing.medium),
+                ),
+            const SizedBox(height: AppSpacing.medium),
             Text(
               'Gastos',
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            SizedBox(height: AppSpacing.medium),
+            const SizedBox(height: AppSpacing.medium),
             Expanded(
               child: ListView(
                 children: context
                     .watch<FinanceCubit>()
                     .state
                     .costs
-                    .map((cost) => CostInstance(
-                          cost: cost,
-                        ))
+                    .map(
+                      (cost) => CostInstance(
+                        cost: cost,
+                      ),
+                    )
                     .toList(),
               ),
             ),
-          ]),
+          ],
         ),
-        title: 'Finanças');
+      ),
+      title: 'Finanças',
+    );
   }
 }

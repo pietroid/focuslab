@@ -19,22 +19,24 @@ class DurationSelectorPopup extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text('Selecione um duração',
-            style: Theme.of(context).textTheme.titleLarge),
-        SizedBox(height: AppSpacing.medium),
+        Text(
+          'Selecione um duração',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        const SizedBox(height: AppSpacing.medium),
         SizedBox(
           height: 150,
           child: CupertinoTimerPicker(
-              minuteInterval: 5,
-              mode: CupertinoTimerPickerMode.hm,
-              onTimerDurationChanged: (Duration newDuration) {
-                // Handle duration changes
-              }),
+            minuteInterval: 5,
+            mode: CupertinoTimerPickerMode.hm,
+            onTimerDurationChanged: (Duration newDuration) {
+              // Handle duration changes
+            },
+          ),
         ),
-        SizedBox(height: AppSpacing.medium),
-        Row(
+        const SizedBox(height: AppSpacing.medium),
+        const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Button(

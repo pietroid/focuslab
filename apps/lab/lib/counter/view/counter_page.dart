@@ -40,23 +40,22 @@ class CounterView extends StatelessWidget {
     return DefaultScaffold(
       title: 'Finance focus lab',
       body: Padding(
-        padding: EdgeInsets.all(AppSpacing.extraSmall),
+        padding: const EdgeInsets.all(AppSpacing.extraSmall),
         child: Column(
           children: [
-            Text('R\$ 200'),
-            SizedBox(
+            const Text(r'R$ 200'),
+            const SizedBox(
               width: 200,
               height: 200,
               child: Center(
                 child: LivingBeing(levelOfLife: 1),
               ),
             ),
-            Spacer(),
-            Text('Consume money'),
+            const Spacer(),
+            const Text('Consume money'),
             Slider(
               value: 0,
               onChanged: (value) {},
-              min: 0,
               max: 100,
               activeColor: Colors.red,
             ),
@@ -83,7 +82,7 @@ class Spacer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: 2,
     );

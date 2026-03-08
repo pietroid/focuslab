@@ -16,21 +16,26 @@ class DateRangeLabel extends StatelessWidget {
         PopupPage.show(
           context: context,
           content: BlocProvider.value(
-              value: context.read<FinanceCubit>(),
-              child: ChangeDateRangePopupContent()),
+            value: context.read<FinanceCubit>(),
+            child: const ChangeDateRangePopupContent(),
+          ),
         );
       },
       child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-                '${state.startDate.formatAsSimpleDate()} - ${state.endDate.formatAsSimpleDate()}'),
-            Text('${daysDifference} dias',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.captionColor,
-                    )),
-          ]),
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            '${state.startDate.formatAsSimpleDate()} - ${state.endDate.formatAsSimpleDate()}',
+          ),
+          Text(
+            '$daysDifference dias',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppColors.captionColor,
+                ),
+          ),
+        ],
+      ),
     );
   }
 }

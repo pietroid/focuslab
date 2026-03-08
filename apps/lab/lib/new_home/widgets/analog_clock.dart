@@ -71,10 +71,10 @@ class _ClockPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Color midDayColor = const Color.fromARGB(255, 255, 243, 163);
-    final Color dayColor = const Color.fromARGB(255, 255, 177, 8);
-    final Color midNightColor = const Color.fromARGB(255, 0, 0, 0);
-    final Color nightColor = const Color.fromARGB(255, 0, 35, 100);
+    const midDayColor = Color.fromARGB(255, 255, 243, 163);
+    const dayColor = Color.fromARGB(255, 255, 177, 8);
+    const midNightColor = Color.fromARGB(255, 0, 0, 0);
+    const nightColor = Color.fromARGB(255, 0, 35, 100);
 
     shader.setFloat(0, size.width);
     shader.setFloat(1, size.height);
@@ -84,7 +84,7 @@ class _ClockPainter extends CustomPainter {
 
     final facePaint = Paint()..shader = shader;
 
-    Rect rect = Rect.fromCircle(
+    var rect = Rect.fromCircle(
       center: size.center(Offset.zero),
       radius: size.shortestSide / 2,
     );
@@ -123,8 +123,8 @@ class _ClockPainter extends CustomPainter {
     shader.setFloat(16, nightColor.b);
     shader.setFloat(17, nightColor.a);
 
-    shader.setFloat(18, 5.0); // dayColorTimeDelta
-    shader.setFloat(19, 8.0); // nightColorTimeDelta
+    shader.setFloat(18, 5); // dayColorTimeDelta
+    shader.setFloat(19, 8); // nightColorTimeDelta
 
     // Face (outer ring)
     canvas.drawCircle(center, radius, facePaint);

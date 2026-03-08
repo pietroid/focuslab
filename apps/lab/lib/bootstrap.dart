@@ -24,10 +24,11 @@ class AppBlocObserver extends BlocObserver {
 }
 
 Future<void> bootstrap(
-    FutureOr<Widget> Function({
-      required FinanceRepository financeRepository,
-      required AnalogClockFragmentProvider clockFragmentProvider,
-    }) builder) async {
+  FutureOr<Widget> Function({
+    required FinanceRepository financeRepository,
+    required AnalogClockFragmentProvider clockFragmentProvider,
+  }) builder,
+) async {
   WidgetsFlutterBinding.ensureInitialized();
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
@@ -43,10 +44,12 @@ Future<void> bootstrap(
   final clockFragmentProgram =
       await FragmentProgram.fromAsset('shaders/analog_clock_shader.frag');
 
-  runApp(await builder(
-    financeRepository: financeRepository,
-    clockFragmentProvider: AnalogClockFragmentProvider(
-      fragmentProgram: clockFragmentProgram,
+  runApp(
+    await builder(
+      financeRepository: financeRepository,
+      clockFragmentProvider: AnalogClockFragmentProvider(
+        fragmentProgram: clockFragmentProgram,
+      ),
     ),
-  ));
+  );
 }

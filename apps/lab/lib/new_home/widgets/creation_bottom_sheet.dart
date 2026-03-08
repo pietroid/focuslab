@@ -19,7 +19,7 @@ class CreationBottomSheet {
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return CreationBottomSheetWidget();
+        return const CreationBottomSheetWidget();
       },
     );
   }
@@ -28,133 +28,144 @@ class CreationBottomSheet {
 class CreationBottomSheetWidget extends StatelessWidget {
   const CreationBottomSheetWidget({super.key});
 
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(AppSpacing.medium),
-                topRight: Radius.circular(AppSpacing.medium),
+      child: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(AppSpacing.medium),
+            topRight: Radius.circular(AppSpacing.medium),
+          ),
+          child: ColoredBox(
+            color: const Color.fromARGB(14, 255, 255, 255),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(
+                sigmaX: 8,
+                sigmaY: 8,
+                tileMode: TileMode.clamp,
               ),
-              child: Container(
-                color: const Color.fromARGB(14, 255, 255, 255),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                      sigmaX: 8, sigmaY: 8, tileMode: TileMode.clamp),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 4,
-                      top: 10,
-                      right: 4,
-                      bottom: 8,
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: AppSpacing.medium,
-                            right: AppSpacing.medium,
-                            bottom: AppSpacing.small,
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: TextField(
-                                  autofocus: true,
-                                  //controller: _contentController,
-                                  textInputAction: TextInputAction.go,
-                                  onSubmitted: (_) {
-                                    // context.read<CreationBottomSheetBloc>().add(
-                                    //       const FormSubmitted(),
-                                    //     );
-                                  },
-                                  maxLines: null,
-                                  style: GoogleFonts.onest(
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                  ),
-                                  decoration: const InputDecoration(
-                                    hintText: '',
-                                    border: InputBorder.none,
-                                  ),
-                                ),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 4,
+                  top: 10,
+                  right: 4,
+                  bottom: 8,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: AppSpacing.medium,
+                        right: AppSpacing.medium,
+                        bottom: AppSpacing.small,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              autofocus: true,
+                              //controller: _contentController,
+                              textInputAction: TextInputAction.go,
+                              onSubmitted: (_) {
+                                // context.read<CreationBottomSheetBloc>().add(
+                                //       const FormSubmitted(),
+                                //     );
+                              },
+                              maxLines: null,
+                              style: GoogleFonts.onest(
+                                fontSize: 14,
+                                color: Colors.white,
                               ),
-
-                              // SizedBox(width: AppSpacing.medium),
-                              // SendButton(
-                              //   onPressed: () {
-                              //     // context
-                              //     //     .read<CreationBottomSheetBloc>()
-                              //     //     .add(const FormSubmitted());
-                              //   },
-                              // ),
-                            ],
+                              decoration: const InputDecoration(
+                                hintText: '',
+                                border: InputBorder.none,
+                              ),
+                            ),
                           ),
-                        ),
-                        Row(
-                          children: [
-                            GroupedOptions(
-                                initialSelectedIndex: 0,
-                                expanded: true,
-                                options: [
-                                  const OptionInfo(
-                                    icon: CupertinoIcons.square_list,
-                                    label: 'Depois',
-                                  ),
-                                  OptionInfo(
-                                      icon: CupertinoIcons.time,
-                                      label: 'Hora',
-                                      onTap: () {
-                                        PopupPage.show(
-                                            context: context,
-                                            content: TimeSelectorPopup());
-                                      }),
-                                  const OptionInfo(
-                                    icon: CupertinoIcons.play_arrow_solid,
-                                    label: 'Agora',
-                                  ),
-                                ]),
-                            const SizedBox(width: AppSpacing.extraSmall),
-                            GroupedOptions(
-                              initialSelectedIndex: 0,
-                              expanded: true,
-                              options: [
-                                OptionInfo(
-                                    icon: CupertinoIcons.timer,
-                                    label: '00:15',
-                                    onTap: () {
-                                      PopupPage.show(
-                                          context: context,
-                                          content: DurationSelectorPopup());
-                                    }),
-                                const OptionInfo(
-                                  icon: CupertinoIcons.loop,
-                                ),
-                              ],
+
+                          // SizedBox(width: AppSpacing.medium),
+                          // SendButton(
+                          //   onPressed: () {
+                          //     // context
+                          //     //     .read<CreationBottomSheetBloc>()
+                          //     //     .add(const FormSubmitted());
+                          //   },
+                          // ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        GroupedOptions(
+                          initialSelectedIndex: 0,
+                          expanded: true,
+                          options: [
+                            const OptionInfo(
+                              icon: CupertinoIcons.square_list,
+                              label: 'Depois',
                             ),
-                            const SizedBox(width: AppSpacing.extraSmall),
-                            Expanded(
-                              child: Container(),
+                            OptionInfo(
+                              icon: CupertinoIcons.time,
+                              label: 'Hora',
+                              onTap: () {
+                                PopupPage.show(
+                                  context: context,
+                                  content: const TimeSelectorPopup(),
+                                );
+                              },
                             ),
-                            const MoreButton(),
+                            const OptionInfo(
+                              icon: CupertinoIcons.play_arrow_solid,
+                              label: 'Agora',
+                            ),
                           ],
                         ),
-                        // SizedBox(width: AppSpacing.extraSmall),
-                        // ActionButton(
-                        //   icon: CupertinoIcons.timer,
-                        //   label: '30 min',
-                        // ),
+                        const SizedBox(width: AppSpacing.extraSmall),
+                        GroupedOptions(
+                          initialSelectedIndex: 0,
+                          expanded: true,
+                          options: [
+                            OptionInfo(
+                              icon: CupertinoIcons.timer,
+                              label: '00:15',
+                              onTap: () {
+                                PopupPage.show(
+                                  context: context,
+                                  content: const DurationSelectorPopup(),
+                                );
+                              },
+                            ),
+                            const OptionInfo(
+                              icon: CupertinoIcons.loop,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(width: AppSpacing.extraSmall),
+                        Expanded(
+                          child: Container(),
+                        ),
+                        const MoreButton(),
                       ],
                     ),
-                  ),
+                    // SizedBox(width: AppSpacing.extraSmall),
+                    // ActionButton(
+                    //   icon: CupertinoIcons.timer,
+                    //   label: '30 min',
+                    // ),
+                  ],
                 ),
               ),
-            )));
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -178,7 +189,7 @@ class MoreButton extends StatelessWidget {
           color: AppColors.defaultButtonColor,
           borderRadius: BorderRadius.circular(100),
         ),
-        child: Icon(CupertinoIcons.plus, color: Colors.white, size: 16),
+        child: const Icon(CupertinoIcons.plus, color: Colors.white, size: 16),
       ),
     );
   }
@@ -198,12 +209,12 @@ class SendButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         padding: const EdgeInsets.all(AppSpacing.small),
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(16, 255, 255, 255),
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(16, 255, 255, 255),
           shape: BoxShape.circle,
         ),
-        child:
-            Icon(CupertinoIcons.checkmark_alt, color: Colors.white, size: 18),
+        child: const Icon(CupertinoIcons.checkmark_alt,
+            color: Colors.white, size: 18),
       ),
     );
   }

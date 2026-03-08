@@ -16,11 +16,11 @@ class HomeAddButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         padding: const EdgeInsets.all(AppSpacing.medium),
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(16, 255, 255, 255),
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(16, 255, 255, 255),
           shape: BoxShape.circle,
         ),
-        child: Icon(CupertinoIcons.plus, color: Colors.white, size: 18),
+        child: const Icon(CupertinoIcons.plus, color: Colors.white, size: 18),
       ),
     );
   }
