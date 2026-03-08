@@ -11,6 +11,7 @@ class CalendarDragHandler extends StatefulWidget {
     required this.onStartDragTime,
     required this.onEndDragTime,
     this.onDragUpdate,
+    this.canCreate,
     super.key,
   });
 
@@ -24,6 +25,9 @@ class CalendarDragHandler extends StatefulWidget {
 
   /// Called on every pointer move while in event creation mode.
   final void Function(DateTime)? onDragUpdate;
+
+  /// If provided, event creation is suppressed when this returns false.
+  final bool Function()? canCreate;
 
   @override
   State<CalendarDragHandler> createState() => _CalendarDragHandlerState();
@@ -75,6 +79,7 @@ class _CalendarDragHandlerState extends State<CalendarDragHandler> {
       onPointerDown: (event) {
         _pointerDownPosition = event.localPosition;
         _holdTimer = Timer(_holdDuration, () {
+          if (widget.canCreate?.call() == false) return;
           // Hold threshold reached — switch to event creation mode.
           // AbsorbPointer will now block the ListView from receiving events.
           setState(() => _isCreatingEvent = true);

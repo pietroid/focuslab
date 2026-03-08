@@ -6,6 +6,7 @@ part 'event_preview_state.dart';
 class EventPreviewBloc extends Bloc<EventPreviewEvent, EventPreviewState> {
   EventPreviewBloc() : super(const EventPreviewState()) {
     on<PreviewStarted>(_onPreviewStarted);
+    on<EventEditStarted>(_onEventEditStarted);
     on<PreviewNameChanged>(_onPreviewNameChanged);
     on<PreviewConfirmed>(_onPreviewConfirmed);
     on<PreviewCancelled>(_onPreviewCancelled);
@@ -21,6 +22,21 @@ class EventPreviewBloc extends Bloc<EventPreviewEvent, EventPreviewState> {
         status: EventPreviewStatus.editing,
         startTime: event.startTime,
         endTime: event.endTime,
+      ),
+    );
+  }
+
+  void _onEventEditStarted(
+    EventEditStarted event,
+    Emitter<EventPreviewState> emit,
+  ) {
+    emit(
+      EventPreviewState(
+        status: EventPreviewStatus.editing,
+        eventId: event.eventId,
+        startTime: event.startTime,
+        endTime: event.endTime,
+        name: event.name,
       ),
     );
   }

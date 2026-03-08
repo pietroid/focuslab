@@ -27,7 +27,8 @@ class _EventPreviewBoxState extends State<EventPreviewBox> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController();
+    final initialName = context.read<EventPreviewBloc>().state.name;
+    _controller = TextEditingController(text: initialName);
     _focusNode = FocusNode()..addListener(_onFocusChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _focusNode.requestFocus();
@@ -79,9 +80,10 @@ class _EventPreviewBoxState extends State<EventPreviewBox> {
             color: Colors.black,
           ),
           decoration: const InputDecoration.collapsed(hintText: 'Event name'),
-          onChanged: (value) => context
-              .read<EventPreviewBloc>()
-              .add(PreviewNameChanged(name: value)),
+          onChanged:
+              (value) => context.read<EventPreviewBloc>().add(
+                PreviewNameChanged(name: value),
+              ),
           onSubmitted: (_) {
             _submitted = true;
             context.read<EventPreviewBloc>().add(const PreviewConfirmed());

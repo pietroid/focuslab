@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus/calendar/bloc/calendar_bloc.dart';
+import 'package:focus/calendar/bloc/drag_event_bloc.dart';
 import 'package:focus/calendar/bloc/drag_grid_bloc.dart';
 import 'package:focus/calendar/bloc/event_preview_bloc.dart';
 import 'package:focus/calendar/calendar.dart';
@@ -64,19 +65,52 @@ class HourlyGrid extends StatelessWidget {
             context.read<DragGridBloc>().add(const DragResultConsumed());
           },
         ),
-        BlocListener<EventPreviewBloc, EventPreviewState>(
-          listenWhen: (_, curr) => curr.isConfirmed,
+        BlocListener<DragEventBloc, DragEventState>(
+          listenWhen: (_, curr) => curr.hasCompleted,
           listener: (context, state) {
+            final original = context
+                .read<EventsBloc>()
+                .state
+                .events
+                .firstWhere((e) => e.id == state.completedEventId);
             context.read<EventsBloc>().add(
-              EventAdded(
-                event: Event(
-                  id: DateTime.now().millisecondsSinceEpoch.toString(),
-                  name: state.name.isEmpty ? 'New Event' : state.name,
-                  startDate: state.startTime!,
-                  endDate: state.endTime!,
+              EventUpdated(
+                event: original.copyWith(
+                  startDate: state.completedStart,
+                  endDate: state.completedEnd,
                 ),
               ),
             );
+            context.read<DragEventBloc>().add(const EventDragResultConsumed());
+          },
+        ),
+        BlocListener<EventPreviewBloc, EventPreviewState>(
+          listenWhen: (_, curr) => curr.isConfirmed,
+          listener: (context, state) {
+            final name = state.name.isEmpty ? 'New Event' : state.name;
+            if (state.eventId != null) {
+              context.read<EventsBloc>().add(
+                EventUpdated(
+                  event: Event(
+                    id: state.eventId!,
+                    name: name,
+                    startDate: state.startTime!,
+                    endDate: state.endTime!,
+                  ),
+                ),
+              );
+            } else {
+              context.read<EventsBloc>().add(
+                EventAdded(
+                  event: Event(
+                    id: DateTime.now().millisecondsSinceEpoch.toString(),
+                    name: name,
+                    startDate: state.startTime!,
+                    endDate: state.endTime!,
+                  ),
+                ),
+              );
+            }
             context.read<EventPreviewBloc>().add(const PreviewResultConsumed());
           },
         ),
@@ -88,105 +122,152 @@ class HourlyGrid extends StatelessWidget {
 
           return BlocBuilder<EventsBloc, EventsState>(
             builder: (context, eventsState) {
-              final dayEvents =
-                  eventsState.events
-                      .where(
-                        (e) => _isSameDay(e.startDate, dayData.hours.first),
-                      )
-                      .toList();
+              final dayEvents = eventsState.events
+                  .where((e) => _isSameDay(e.startDate, dayData.hours.first))
+                  .toList();
 
               return BlocBuilder<DragGridBloc, DragGridState>(
-                builder: (context, dragState) {
-                  final dragBloc = context.read<DragGridBloc>();
+                builder: (context, dragGridState) {
+                  return BlocBuilder<DragEventBloc, DragEventState>(
+                    builder: (context, dragEventState) {
+                      final dragGridBloc = context.read<DragGridBloc>();
+                      final isScrollLocked =
+                          dragGridState.isDragging ||
+                          dragEventState.isDragging;
 
-                  return CalendarDragHandler(
-                    onStartDragTime: (t) =>
-                        dragBloc.add(DragStarted(time: t)),
-                    onEndDragTime: (t) => dragBloc.add(DragEnded(time: t)),
-                    onDragUpdate: (t) => dragBloc.add(DragUpdated(time: t)),
-                    child: Stack(
-                      children: [
-                        ListView.builder(
-                          controller: scrollController,
-                          physics:
-                              dragState.isDragging
+                      return CalendarDragHandler(
+                        canCreate: () => !dragEventState.isDragging,
+                        onStartDragTime: (t) =>
+                            dragGridBloc.add(DragStarted(time: t)),
+                        onEndDragTime: (t) =>
+                            dragGridBloc.add(DragEnded(time: t)),
+                        onDragUpdate: (t) =>
+                            dragGridBloc.add(DragUpdated(time: t)),
+                        child: Stack(
+                          children: [
+                            ListView.builder(
+                              controller: scrollController,
+                              physics: isScrollLocked
                                   ? const NeverScrollableScrollPhysics()
                                   : const _SnapScrollPhysics(
-                                    itemExtent:
-                                        CalendarSettings.hourUnitHeight,
+                                      itemExtent:
+                                          CalendarSettings.hourUnitHeight,
+                                    ),
+                              itemExtent: CalendarSettings.hourUnitHeight,
+                              itemCount: dayData.hours.length,
+                              itemBuilder: (context, index) {
+                                final hour = dayData.hours[index];
+                                final nowFraction =
+                                    isToday && hour.hour == now.hour
+                                        ? (now.minute * 60 + now.second) /
+                                            3600.0
+                                        : null;
+                                return HourUnit(
+                                  startTime: hour,
+                                  nowFraction: nowFraction,
+                                );
+                              },
+                            ),
+                            Positioned.fill(
+                              child: Stack(
+                                children: [
+                                  // Non-interactive: new-event drag ghost only
+                                  if (dragGridState.startTime != null &&
+                                      dragGridState.currentTime != null)
+                                    IgnorePointer(
+                                      child: AnimatedBuilder(
+                                        animation: scrollController,
+                                        builder: (context, _) {
+                                          final scrollOffset =
+                                              scrollController.hasClients
+                                                  ? scrollController.offset
+                                                  : 0.0;
+                                          return Stack(
+                                            children: [
+                                              _buildDragPreview(
+                                                dragGridState,
+                                                scrollOffset,
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  // Interactive: saved event boxes.
+                                  // Positioned.fill gives the inner Stack
+                                  // proper bounds so EventBox hit-testing
+                                  // works and touches don't fall through
+                                  // to the ListView.
+                                  Positioned.fill(
+                                    child: AnimatedBuilder(
+                                      animation: scrollController,
+                                      builder: (context, _) {
+                                        final scrollOffset =
+                                            scrollController.hasClients
+                                                ? scrollController.offset
+                                                : 0.0;
+                                        return Stack(
+                                          children: [
+                                            for (final event in dayEvents)
+                                              EventBox(
+                                                key: ValueKey(event.id),
+                                                event: event,
+                                                scrollOffset: scrollOffset,
+                                                overrideStart: dragEventState
+                                                            .draggingEventId ==
+                                                        event.id
+                                                    ? dragEventState
+                                                        .currentStart
+                                                    : null,
+                                                overrideEnd: dragEventState
+                                                            .draggingEventId ==
+                                                        event.id
+                                                    ? dragEventState.currentEnd
+                                                    : null,
+                                              ),
+                                          ],
+                                        );
+                                      },
+                                    ),
                                   ),
-                          itemExtent: CalendarSettings.hourUnitHeight,
-                          itemCount: dayData.hours.length,
-                          itemBuilder: (context, index) {
-                            final hour = dayData.hours[index];
-                            final nowFraction =
-                                isToday && hour.hour == now.hour
-                                    ? (now.minute * 60 + now.second) / 3600.0
-                                    : null;
-                            return HourUnit(
-                              startTime: hour,
-                              nowFraction: nowFraction,
-                            );
-                          },
-                        ),
-                        Positioned.fill(
-                          child: Stack(
-                            children: [
-                              // Non-interactive layer:
-                              // saved events + drag ghost
-                              IgnorePointer(
-                                child: AnimatedBuilder(
-                                  animation: scrollController,
-                                  builder: (context, _) {
-                                    final scrollOffset =
-                                        scrollController.hasClients
-                                            ? scrollController.offset
-                                            : 0.0;
-                                    return Stack(
-                                      children: [
-                                        for (final event in dayEvents)
-                                          EventBox(
-                                            event: event,
-                                            scrollOffset: scrollOffset,
-                                          ),
-                                        if (dragState.startTime != null &&
-                                            dragState.currentTime != null)
-                                          _buildDragPreview(
-                                            dragState,
-                                            scrollOffset,
-                                          ),
-                                      ],
-                                    );
-                                  },
-                                ),
+                                  // Interactive: name text field after drag
+                                  Positioned.fill(
+                                    child: BlocBuilder<EventPreviewBloc,
+                                        EventPreviewState>(
+                                      builder: (context, previewState) {
+                                        if (!previewState.isActive) {
+                                          return const SizedBox.shrink();
+                                        }
+                                        return AnimatedBuilder(
+                                          animation: scrollController,
+                                          builder: (context, _) {
+                                            final scrollOffset =
+                                                scrollController.hasClients
+                                                    ? scrollController.offset
+                                                    : 0.0;
+                                            return Stack(
+                                              children: [
+                                                EventPreviewBox(
+                                                  startTime:
+                                                      previewState.startTime!,
+                                                  endTime:
+                                                      previewState.endTime!,
+                                                  scrollOffset: scrollOffset,
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
-                              // Interactive layer: event name text field
-                              BlocBuilder<EventPreviewBloc, EventPreviewState>(
-                                builder: (context, previewState) {
-                                  if (!previewState.isActive) {
-                                    return const SizedBox.shrink();
-                                  }
-                                  return AnimatedBuilder(
-                                    animation: scrollController,
-                                    builder: (context, _) {
-                                      final scrollOffset =
-                                          scrollController.hasClients
-                                              ? scrollController.offset
-                                              : 0.0;
-                                      return EventPreviewBox(
-                                        startTime: previewState.startTime!,
-                                        endTime: previewState.endTime!,
-                                        scrollOffset: scrollOffset,
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   );
                 },
               );

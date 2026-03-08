@@ -5,12 +5,17 @@ enum EventPreviewStatus { idle, editing, confirmed }
 class EventPreviewState {
   const EventPreviewState({
     this.status = EventPreviewStatus.idle,
+    this.eventId,
     this.startTime,
     this.endTime,
     this.name = '',
   });
 
   final EventPreviewStatus status;
+
+  /// Non-null when editing an existing event; null when creating a new one.
+  final String? eventId;
+
   final DateTime? startTime;
   final DateTime? endTime;
   final String name;
@@ -20,13 +25,12 @@ class EventPreviewState {
 
   EventPreviewState copyWith({
     EventPreviewStatus? status,
-    DateTime? startTime,
-    DateTime? endTime,
     String? name,
   }) => EventPreviewState(
     status: status ?? this.status,
-    startTime: startTime ?? this.startTime,
-    endTime: endTime ?? this.endTime,
+    eventId: eventId,
+    startTime: startTime,
+    endTime: endTime,
     name: name ?? this.name,
   );
 }

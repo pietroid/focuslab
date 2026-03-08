@@ -7,3 +7,9 @@ final class EventAdded extends EventsEvent {
 
   final Event event;
 }
+
+final class EventUpdated extends EventsEvent {
+  EventUpdated({required this.event});
+
+  final Event event;
+}
