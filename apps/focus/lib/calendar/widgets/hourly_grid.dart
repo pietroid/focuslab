@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus/calendar/calendar.dart';
+import 'package:focus/calendar/utils/calendar_settings.dart';
 import 'package:focus/calendar/widgets/hour_unit.dart';
 import 'package:provider/provider.dart';
-
-const _itemExtent = 52.0;
 
 class HourlyGrid extends StatelessWidget {
   const HourlyGrid({super.key});
@@ -14,9 +13,11 @@ class HourlyGrid extends StatelessWidget {
     final dayData = context.read<DayData>();
 
     return ListView.builder(
-      controller: context.read<ScrollController>(),
-      physics: const _SnapScrollPhysics(itemExtent: _itemExtent),
-      itemExtent: _itemExtent,
+      //controller: context.read<ScrollController>(),
+      physics: const _SnapScrollPhysics(
+        itemExtent: CalendarSettings.hourUnitHeight,
+      ),
+      itemExtent: CalendarSettings.hourUnitHeight,
       itemCount: dayData.hours.length,
       itemBuilder:
           (context, index) => HourUnit(startTime: dayData.hours[index]),
