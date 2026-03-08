@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus/calendar/bloc/calendar_bloc.dart';
 import 'package:focus/calendar/widgets/day_column.dart';
+import 'package:focus/events/events.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 
 class Calendar extends StatefulWidget {
@@ -28,8 +29,11 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => CalendarBloc(now: DateTime.now()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => CalendarBloc(now: DateTime.now())),
+        BlocProvider(create: (_) => EventsBloc()),
+      ],
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
