@@ -44,6 +44,7 @@ class _DayColumnState extends State<DayColumn> {
       child: SizedBox(
         width: 400,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(widget.data.name, style: textTheme.headlineMedium),
             Text(widget.data.dayOfTheMonth, style: textTheme.headlineSmall),

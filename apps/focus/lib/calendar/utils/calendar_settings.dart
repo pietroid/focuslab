@@ -1,3 +1,3 @@
 class CalendarSettings {
-  static const double hourUnitHeight = 50;
+  static const double hourUnitHeight = 100;
 }

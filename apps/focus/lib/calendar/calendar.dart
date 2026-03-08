@@ -1,4 +1,7 @@
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:focus/calendar/bloc/calendar_bloc.dart';
 import 'package:focus/calendar/widgets/day_column.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 
@@ -25,14 +28,17 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      scrollDirection: Axis.horizontal,
-      itemBuilder: (context, index) {
-        final dayData = DayData.fromDay(_listOfDays[index]);
-        return DayColumn(data: dayData, scrollGroup: _scrollGroup);
-      },
-      separatorBuilder: (context, index) => const SizedBox(width: 0),
-      itemCount: _listOfDays.length,
+    return BlocProvider(
+      create: (_) => CalendarBloc(now: DateTime.now()),
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          final dayData = DayData.fromDay(_listOfDays[index]);
+          return DayColumn(data: dayData, scrollGroup: _scrollGroup);
+        },
+        separatorBuilder: (context, index) => SizedBox(width: 0),
+        itemCount: _listOfDays.length,
+      ),
     );
   }
 }
@@ -90,19 +96,19 @@ class DayData {
   static String _getDayName(int weekday) {
     switch (weekday) {
       case DateTime.monday:
-        return 'Segunda';
+        return 'segunda';
       case DateTime.tuesday:
-        return 'Terça';
+        return 'terça';
       case DateTime.wednesday:
-        return 'Quarta';
+        return 'quarta';
       case DateTime.thursday:
-        return 'Quinta';
+        return 'quinta';
       case DateTime.friday:
-        return 'Sexta';
+        return 'sexta';
       case DateTime.saturday:
-        return 'Sábado';
+        return 'sábado';
       case DateTime.sunday:
-        return 'Domingo';
+        return 'domingo';
       default:
         return '';
     }

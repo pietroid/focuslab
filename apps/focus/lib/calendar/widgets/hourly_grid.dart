@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:focus/calendar/bloc/calendar_bloc.dart';
 import 'package:focus/calendar/calendar.dart';
 import 'package:focus/calendar/utils/calendar_settings.dart';
 import 'package:focus/calendar/widgets/hour_unit.dart';
-import 'package:provider/provider.dart';
 
 class HourlyGrid extends StatelessWidget {
   const HourlyGrid({super.key});
@@ -12,17 +12,33 @@ class HourlyGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final dayData = context.read<DayData>();
 
-    return ListView.builder(
-      //controller: context.read<ScrollController>(),
-      physics: const _SnapScrollPhysics(
-        itemExtent: CalendarSettings.hourUnitHeight,
-      ),
-      itemExtent: CalendarSettings.hourUnitHeight,
-      itemCount: dayData.hours.length,
-      itemBuilder:
-          (context, index) => HourUnit(startTime: dayData.hours[index]),
+    return BlocBuilder<CalendarBloc, CalendarState>(
+      builder: (context, state) {
+        final now = state.now;
+        final isToday = _isSameDay(now, dayData.hours.first);
+
+        return ListView.builder(
+          //controller: context.read<ScrollController>(),
+          physics: const _SnapScrollPhysics(
+            itemExtent: CalendarSettings.hourUnitHeight,
+          ),
+          itemExtent: CalendarSettings.hourUnitHeight,
+          itemCount: dayData.hours.length,
+          itemBuilder: (context, index) {
+            final hour = dayData.hours[index];
+            final nowFraction =
+                isToday && hour.hour == now.hour
+                    ? (now.minute * 60 + now.second) / 3600.0
+                    : null;
+            return HourUnit(startTime: hour, nowFraction: nowFraction);
+          },
+        );
+      },
     );
   }
+
+  bool _isSameDay(DateTime a, DateTime b) =>
+      a.year == b.year && a.month == b.month && a.day == b.day;
 }
 
 class _SnapScrollPhysics extends ScrollPhysics {

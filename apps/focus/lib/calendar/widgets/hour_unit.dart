@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:focus/calendar/utils/calendar_settings.dart';
+import 'package:focus/calendar/widgets/current_time_bar.dart';
 
 class HourUnit extends StatelessWidget {
-  const HourUnit({required this.startTime, super.key});
+  const HourUnit({required this.startTime, this.nowFraction, super.key});
 
   final DateTime startTime;
+
+  /// If non-null, renders a "now" indicator bar at this fraction (0.0–1.0)
+  /// of the unit's height.
+  final double? nowFraction;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +53,15 @@ class HourUnit extends StatelessWidget {
                 ),
               ),
             ),
+            if (nowFraction != null)
+              Transform.translate(
+                offset: Offset(
+                  0,
+                  nowFraction! * CalendarSettings.hourUnitHeight,
+                ),
+
+                child: const CurrentTimeBar(),
+              ),
           ],
         ),
       ),
