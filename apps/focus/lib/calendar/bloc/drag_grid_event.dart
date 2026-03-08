@@ -21,3 +21,7 @@ class DragEnded extends DragGridEvent {
 
   final DateTime time;
 }
+
+class DragResultConsumed extends DragGridEvent {
+  const DragResultConsumed();
+}

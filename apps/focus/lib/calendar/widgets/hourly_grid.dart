@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus/calendar/bloc/calendar_bloc.dart';
 import 'package:focus/calendar/bloc/drag_grid_bloc.dart';
+import 'package:focus/calendar/bloc/event_preview_bloc.dart';
 import 'package:focus/calendar/calendar.dart';
 import 'package:focus/calendar/utils/calendar_settings.dart';
 import 'package:focus/calendar/widgets/drag_handler.dart';
 import 'package:focus/calendar/widgets/event_box.dart';
+import 'package:focus/calendar/widgets/event_preview_box.dart';
 import 'package:focus/calendar/widgets/hour_unit.dart';
 import 'package:focus/events/events.dart';
 
@@ -17,10 +19,7 @@ class HourlyGrid extends StatelessWidget {
   bool _isSameDay(DateTime a, DateTime b) =>
       a.year == b.year && a.month == b.month && a.day == b.day;
 
-  Widget _buildDragPreview(
-    DragGridState dragState,
-    double scrollOffset,
-  ) {
+  Widget _buildDragPreview(DragGridState dragState, double scrollOffset) {
     final start = dragState.startTime!;
     final current = dragState.currentTime!;
     final actualStart = start.isBefore(current) ? start : current;
@@ -51,83 +50,150 @@ class HourlyGrid extends StatelessWidget {
     final dayData = context.read<DayData>();
     final scrollController = context.read<ScrollController>();
 
-    return BlocBuilder<CalendarBloc, CalendarState>(
-      builder: (context, calendarState) {
-        final now = calendarState.now;
-        final isToday = _isSameDay(now, dayData.hours.first);
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<DragGridBloc, DragGridState>(
+          listenWhen: (_, curr) => curr.hasCompleted,
+          listener: (context, state) {
+            context.read<EventPreviewBloc>().add(
+              PreviewStarted(
+                startTime: state.completedStart!,
+                endTime: state.completedEnd!,
+              ),
+            );
+            context.read<DragGridBloc>().add(const DragResultConsumed());
+          },
+        ),
+        BlocListener<EventPreviewBloc, EventPreviewState>(
+          listenWhen: (_, curr) => curr.isConfirmed,
+          listener: (context, state) {
+            context.read<EventsBloc>().add(
+              EventAdded(
+                event: Event(
+                  id: DateTime.now().millisecondsSinceEpoch.toString(),
+                  name: state.name.isEmpty ? 'New Event' : state.name,
+                  startDate: state.startTime!,
+                  endDate: state.endTime!,
+                ),
+              ),
+            );
+            context.read<EventPreviewBloc>().add(const PreviewResultConsumed());
+          },
+        ),
+      ],
+      child: BlocBuilder<CalendarBloc, CalendarState>(
+        builder: (context, calendarState) {
+          final now = calendarState.now;
+          final isToday = _isSameDay(now, dayData.hours.first);
 
-        return BlocBuilder<EventsBloc, EventsState>(
-          builder: (context, eventsState) {
-            final dayEvents =
-                eventsState.events
-                    .where((e) => _isSameDay(e.startDate, dayData.hours.first))
-                    .toList();
+          return BlocBuilder<EventsBloc, EventsState>(
+            builder: (context, eventsState) {
+              final dayEvents =
+                  eventsState.events
+                      .where(
+                        (e) => _isSameDay(e.startDate, dayData.hours.first),
+                      )
+                      .toList();
 
-            return BlocBuilder<DragGridBloc, DragGridState>(
-              builder: (context, dragState) {
-                final bloc = context.read<DragGridBloc>();
+              return BlocBuilder<DragGridBloc, DragGridState>(
+                builder: (context, dragState) {
+                  final dragBloc = context.read<DragGridBloc>();
 
-                return CalendarDragHandler(
-                  onStartDragTime: (time) => bloc.add(DragStarted(time: time)),
-                  onEndDragTime: (time) => bloc.add(DragEnded(time: time)),
-                  onDragUpdate: (time) => bloc.add(DragUpdated(time: time)),
-                  child: Stack(
-                    children: [
-                      ListView.builder(
-                        controller: scrollController,
-                        physics:
-                            dragState.isDragging
-                                ? const NeverScrollableScrollPhysics()
-                                : const _SnapScrollPhysics(
-                                  itemExtent: CalendarSettings.hourUnitHeight,
+                  return CalendarDragHandler(
+                    onStartDragTime: (t) =>
+                        dragBloc.add(DragStarted(time: t)),
+                    onEndDragTime: (t) => dragBloc.add(DragEnded(time: t)),
+                    onDragUpdate: (t) => dragBloc.add(DragUpdated(time: t)),
+                    child: Stack(
+                      children: [
+                        ListView.builder(
+                          controller: scrollController,
+                          physics:
+                              dragState.isDragging
+                                  ? const NeverScrollableScrollPhysics()
+                                  : const _SnapScrollPhysics(
+                                    itemExtent:
+                                        CalendarSettings.hourUnitHeight,
+                                  ),
+                          itemExtent: CalendarSettings.hourUnitHeight,
+                          itemCount: dayData.hours.length,
+                          itemBuilder: (context, index) {
+                            final hour = dayData.hours[index];
+                            final nowFraction =
+                                isToday && hour.hour == now.hour
+                                    ? (now.minute * 60 + now.second) / 3600.0
+                                    : null;
+                            return HourUnit(
+                              startTime: hour,
+                              nowFraction: nowFraction,
+                            );
+                          },
+                        ),
+                        Positioned.fill(
+                          child: Stack(
+                            children: [
+                              // Non-interactive layer:
+                              // saved events + drag ghost
+                              IgnorePointer(
+                                child: AnimatedBuilder(
+                                  animation: scrollController,
+                                  builder: (context, _) {
+                                    final scrollOffset =
+                                        scrollController.hasClients
+                                            ? scrollController.offset
+                                            : 0.0;
+                                    return Stack(
+                                      children: [
+                                        for (final event in dayEvents)
+                                          EventBox(
+                                            event: event,
+                                            scrollOffset: scrollOffset,
+                                          ),
+                                        if (dragState.startTime != null &&
+                                            dragState.currentTime != null)
+                                          _buildDragPreview(
+                                            dragState,
+                                            scrollOffset,
+                                          ),
+                                      ],
+                                    );
+                                  },
                                 ),
-                        itemExtent: CalendarSettings.hourUnitHeight,
-                        itemCount: dayData.hours.length,
-                        itemBuilder: (context, index) {
-                          final hour = dayData.hours[index];
-                          final nowFraction =
-                              isToday && hour.hour == now.hour
-                                  ? (now.minute * 60 + now.second) / 3600.0
-                                  : null;
-                          return HourUnit(
-                            startTime: hour,
-                            nowFraction: nowFraction,
-                          );
-                        },
-                      ),
-                      Positioned.fill(
-                        child: IgnorePointer(
-                          child: AnimatedBuilder(
-                            animation: scrollController,
-                            builder: (context, _) {
-                              final scrollOffset =
-                                  scrollController.hasClients
-                                      ? scrollController.offset
-                                      : 0.0;
-                              return Stack(
-                                children: [
-                                  for (final event in dayEvents)
-                                    EventBox(
-                                      event: event,
-                                      scrollOffset: scrollOffset,
-                                    ),
-                                  if (dragState.startTime != null &&
-                                      dragState.currentTime != null)
-                                    _buildDragPreview(dragState, scrollOffset),
-                                ],
-                              );
-                            },
+                              ),
+                              // Interactive layer: event name text field
+                              BlocBuilder<EventPreviewBloc, EventPreviewState>(
+                                builder: (context, previewState) {
+                                  if (!previewState.isActive) {
+                                    return const SizedBox.shrink();
+                                  }
+                                  return AnimatedBuilder(
+                                    animation: scrollController,
+                                    builder: (context, _) {
+                                      final scrollOffset =
+                                          scrollController.hasClients
+                                              ? scrollController.offset
+                                              : 0.0;
+                                      return EventPreviewBox(
+                                        startTime: previewState.startTime!,
+                                        endTime: previewState.endTime!,
+                                        scrollOffset: scrollOffset,
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            );
-          },
-        );
-      },
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

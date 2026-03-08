@@ -2,9 +2,9 @@ import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus/calendar/bloc/drag_grid_bloc.dart';
+import 'package:focus/calendar/bloc/event_preview_bloc.dart';
 import 'package:focus/calendar/calendar.dart';
 import 'package:focus/calendar/widgets/hourly_grid.dart';
-import 'package:focus/events/events.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -41,10 +41,8 @@ class _DayColumnState extends State<DayColumn> {
     final textTheme = Theme.of(context).textTheme;
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) =>
-              DragGridBloc(eventsBloc: context.read<EventsBloc>()),
-        ),
+        BlocProvider(create: (_) => DragGridBloc()),
+        BlocProvider(create: (_) => EventPreviewBloc()),
       ],
       child: MultiProvider(
         providers: [
