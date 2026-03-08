@@ -6,6 +6,13 @@ class Event {
     required this.endDate,
   });
 
+  factory Event.fromJson(Map<String, dynamic> json) => Event(
+        id: json['id'] as String,
+        name: json['name'] as String,
+        startDate: DateTime.parse(json['startDate'] as String),
+        endDate: DateTime.parse(json['endDate'] as String),
+      );
+
   final String id;
   final String name;
   final DateTime startDate;
@@ -24,4 +31,11 @@ class Event {
       endDate: endDate ?? this.endDate,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'startDate': startDate.toIso8601String(),
+        'endDate': endDate.toIso8601String(),
+      };
 }
