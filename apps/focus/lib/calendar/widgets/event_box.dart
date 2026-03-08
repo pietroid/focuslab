@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:focus/calendar/bloc/drag_event_bloc.dart';
 import 'package:focus/calendar/bloc/event_preview_bloc.dart';
 import 'package:focus/calendar/utils/calendar_settings.dart';
 import 'package:focus/events/models/event_model.dart';
@@ -20,20 +19,6 @@ class EventBox extends StatelessWidget {
   /// When non-null, renders at this position instead of the stored event times.
   final DateTime? overrideStart;
   final DateTime? overrideEnd;
-
-  /// Converts a localPosition (relative to this Positioned widget) to a
-  /// DateTime in the day's coordinate space, accounting for scroll.
-  DateTime _localToDateTime(Offset localPosition) {
-    final startFraction = event.startDate.hour + event.startDate.minute / 60.0;
-    final calendarY =
-        startFraction * CalendarSettings.hourUnitHeight + localPosition.dy;
-    final totalMinutes =
-        (calendarY / CalendarSettings.hourUnitHeight * 60).floor();
-    final hours = (totalMinutes ~/ 60).clamp(0, 23);
-    final minutes = (totalMinutes % 60).clamp(0, 59);
-    final day = event.startDate;
-    return DateTime(day.year, day.month, day.day, hours, minutes);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,23 +48,6 @@ class EventBox extends StatelessWidget {
                 name: event.name,
               ),
             ),
-        onPanStart:
-            (details) => context.read<DragEventBloc>().add(
-              EventDragStarted(
-                eventId: event.id,
-                eventStart: event.startDate,
-                eventEnd: event.endDate,
-                pointerTime: _localToDateTime(details.localPosition),
-              ),
-            ),
-        onPanUpdate:
-            (details) => context.read<DragEventBloc>().add(
-              EventDragUpdated(
-                pointerTime: _localToDateTime(details.localPosition),
-              ),
-            ),
-        onPanEnd:
-            (_) => context.read<DragEventBloc>().add(const EventDragEnded()),
         child: Container(
           decoration: BoxDecoration(
             gradient: const LinearGradient(
@@ -96,7 +64,7 @@ class EventBox extends StatelessWidget {
                 color: Color.fromARGB(47, 0, 0, 0),
                 blurRadius: 30,
                 spreadRadius: 10,
-                offset: Offset(0, 0),
+                offset: Offset.zero,
               ),
             ],
           ),
