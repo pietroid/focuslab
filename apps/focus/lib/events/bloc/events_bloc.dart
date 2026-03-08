@@ -8,6 +8,7 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
   EventsBloc() : super(const EventsState()) {
     on<EventAdded>(_onEventAdded);
     on<EventUpdated>(_onEventUpdated);
+    on<EventDeleted>(_onEventDeleted);
   }
 
   void _onEventAdded(EventAdded event, Emitter<EventsState> emit) {
@@ -19,6 +20,12 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
       events: state.events
           .map((e) => e.id == event.event.id ? event.event : e)
           .toList(),
+    ));
+  }
+
+  void _onEventDeleted(EventDeleted event, Emitter<EventsState> emit) {
+    emit(state.copyWith(
+      events: state.events.where((e) => e.id != event.eventId).toList(),
     ));
   }
 }

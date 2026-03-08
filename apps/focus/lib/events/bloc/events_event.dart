@@ -13,3 +13,9 @@ final class EventUpdated extends EventsEvent {
 
   final Event event;
 }
+
+final class EventDeleted extends EventsEvent {
+  EventDeleted({required this.eventId});
+
+  final String eventId;
+}

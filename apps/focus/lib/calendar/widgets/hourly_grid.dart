@@ -87,13 +87,18 @@ class HourlyGrid extends StatelessWidget {
         BlocListener<EventPreviewBloc, EventPreviewState>(
           listenWhen: (_, curr) => curr.isConfirmed,
           listener: (context, state) {
-            final name = state.name.isEmpty ? 'New Event' : state.name;
-            if (state.eventId != null) {
+            if (state.name.isEmpty) {
+              if (state.eventId != null) {
+                context.read<EventsBloc>().add(
+                  EventDeleted(eventId: state.eventId!),
+                );
+              }
+            } else if (state.eventId != null) {
               context.read<EventsBloc>().add(
                 EventUpdated(
                   event: Event(
                     id: state.eventId!,
-                    name: name,
+                    name: state.name,
                     startDate: state.startTime!,
                     endDate: state.endTime!,
                   ),
@@ -104,7 +109,7 @@ class HourlyGrid extends StatelessWidget {
                 EventAdded(
                   event: Event(
                     id: DateTime.now().millisecondsSinceEpoch.toString(),
-                    name: name,
+                    name: state.name,
                     startDate: state.startTime!,
                     endDate: state.endTime!,
                   ),
