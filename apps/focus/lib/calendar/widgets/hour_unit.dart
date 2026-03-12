@@ -8,29 +8,26 @@ class HourUnit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-      child: Container(
-        height: CalendarSettings.hourUnitHeight,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: const Color.fromARGB(255, 172, 172, 172),
-            width: 0.05,
-          ),
-          borderRadius: BorderRadius.circular(0),
+    return Container(
+      height: CalendarSettings.hourUnitHeight,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: const Color.fromARGB(255, 172, 172, 172),
+          width: 0.05,
         ),
-        child: Align(
-          alignment: Alignment.topLeft,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 8, top: 4),
-            child: Text(
-              startTime.toTimeString(),
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: const Color.fromARGB(147, 255, 255, 255),
-                fontSize: 11,
-                fontWeight: FontWeight.w100,
-              ),
+        borderRadius: BorderRadius.circular(0),
+      ),
+      child: Align(
+        alignment: Alignment.topRight,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 6, top: 4, right: 6),
+          child: Text(
+            startTime.toTimeString(),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: const Color.fromARGB(147, 255, 255, 255),
+              fontSize: 10,
+              fontWeight: FontWeight.w100,
             ),
           ),
         ),

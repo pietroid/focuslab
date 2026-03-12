@@ -52,6 +52,7 @@ class _EventPreviewBoxState extends State<EventPreviewBox> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = TextTheme.of(context);
     final startFraction =
         widget.startTime.hour + widget.startTime.minute / 60.0;
     final endFraction = widget.endTime.hour + widget.endTime.minute / 60.0;
@@ -62,22 +63,22 @@ class _EventPreviewBoxState extends State<EventPreviewBox> {
 
     return Positioned(
       top: top,
-      left: 4,
-      right: 4,
+      left: 0,
+      right: 0,
       height: height.clamp(30.0, double.infinity),
       child: Container(
         decoration: BoxDecoration(
           color: const Color(0x9950E8FF),
           borderRadius: BorderRadius.circular(4),
         ),
-        padding: const EdgeInsets.all(4),
+        padding: const EdgeInsets.all(7),
         child: TextField(
           controller: _controller,
           focusNode: _focusNode,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
+          style: textTheme.bodyMedium?.copyWith(
+            color: const Color.fromARGB(255, 0, 0, 0),
+            fontWeight: FontWeight.w100,
+            fontSize: 13,
           ),
           decoration: const InputDecoration.collapsed(hintText: 'Event name'),
           onChanged:

@@ -6,15 +6,15 @@ class CurrentTimeBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 0.5,
+      height: 1,
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 80, 232, 255),
+        color: const Color.fromARGB(255, 172, 255, 201),
         borderRadius: BorderRadius.circular(3),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
-            color: const Color.fromARGB(168, 0, 42, 90),
-            blurRadius: 30,
-            spreadRadius: 10,
+            color: Color.fromARGB(168, 0, 87, 90),
+            blurRadius: 20,
+            spreadRadius: 5,
           ),
         ],
       ),

@@ -1,3 +1,4 @@
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus/calendar/bloc/event_preview_bloc.dart';
@@ -34,8 +35,8 @@ class EventBox extends StatelessWidget {
 
     return Positioned(
       top: top,
-      left: 4,
-      right: 4,
+      left: 0,
+      right: 0,
       height: height.clamp(20.0, double.infinity),
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -50,46 +51,45 @@ class EventBox extends StatelessWidget {
             ),
         child: Container(
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [
-                Color.fromARGB(56, 8, 255, 247),
-                Color.fromARGB(26, 5, 193, 255),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomCenter,
+            color: const Color.fromARGB(81, 0, 77, 108),
+            border: BoxBorder.all(
+              color: const Color.fromARGB(51, 255, 255, 255),
             ),
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(6),
             boxShadow: const [
               BoxShadow(
-                color: Color.fromARGB(47, 0, 0, 0),
-                blurRadius: 30,
-                spreadRadius: 10,
+                color: Color.fromARGB(79, 0, 0, 0),
+                blurRadius: 20,
+                spreadRadius: 20,
                 offset: Offset.zero,
               ),
             ],
           ),
-          padding: const EdgeInsets.all(4),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                event.name,
-                style: textTheme.bodyMedium?.copyWith(
-                  color: const Color.fromARGB(255, 200, 255, 238),
-                  fontWeight: FontWeight.w500,
-                  fontSize: 13,
+          child: Padding(
+            padding: EdgeInsetsGeometry.all(6),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  event.name,
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    fontWeight: FontWeight.w100,
+                    fontSize: 13,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                overflow: TextOverflow.ellipsis,
-              ),
-              Text(
-                _fmtDuration(displayStart, displayEnd),
-                style: textTheme.labelSmall?.copyWith(
-                  color: const Color.fromARGB(255, 0, 176, 251),
-                  fontWeight: FontWeight.w100,
+                SizedBox(height: 2),
+                Text(
+                  _fmtDuration(displayStart, displayEnd),
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: const Color.fromARGB(150, 255, 255, 255),
+                    fontSize: 11,
+                    fontWeight: FontWeight.w100,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -104,12 +104,12 @@ class EventBox extends StatelessWidget {
 
   String _fmtDuration(DateTime start, DateTime end) {
     final totalMinutes = end.difference(start).inMinutes;
-    final hours = totalMinutes ~/ 60;
+    final hours = (totalMinutes ~/ 60).toString().padLeft(2, '0');
     final minutes = (totalMinutes % 60).toString().padLeft(2, '0');
     final durationStr =
-        hours > 0
-            ? (minutes != '00' ? '${hours}h ${minutes}min' : '${hours}h')
+        hours != '00'
+            ? (minutes != '00' ? '${hours}:${minutes}' : '${hours}h')
             : '$minutes min';
-    return '$durationStr (${_fmt(start)} - ${_fmt(end)})';
+    return '$durationStr';
   }
 }

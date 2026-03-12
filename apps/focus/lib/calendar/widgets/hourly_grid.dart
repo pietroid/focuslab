@@ -80,9 +80,9 @@ class HourlyGrid extends StatelessWidget {
                   ),
                 );
             }
-            context
-                .read<DragHandlerBloc>()
-                .add(const DragHandlerResultConsumed());
+            context.read<DragHandlerBloc>().add(
+              const DragHandlerResultConsumed(),
+            );
           },
         ),
         BlocListener<EventPreviewBloc, EventPreviewState>(
@@ -128,107 +128,39 @@ class HourlyGrid extends StatelessWidget {
 
           return BlocBuilder<EventsBloc, EventsState>(
             builder: (context, eventsState) {
-              final dayEvents = eventsState.events
-                  .where((e) => _isSameDay(e.startDate, dayData.hours.first))
-                  .toList();
+              final dayEvents =
+                  eventsState.events
+                      .where(
+                        (e) => _isSameDay(e.startDate, dayData.hours.first),
+                      )
+                      .toList();
 
               return BlocBuilder<DragHandlerBloc, DragHandlerState>(
                 builder: (context, dragHandlerState) {
-                  return UnifiedDragHandler(
-                    child: Stack(
-                      children: [
-                        // ── Layer 1: scrollable hour grid ────────────────
-                        ListView.builder(
-                          controller: scrollController,
-                          physics:
-                              dragHandlerState.isDragging
-                                  ? const NeverScrollableScrollPhysics()
-                                  : const _SnapScrollPhysics(
-                                    itemExtent:
-                                        CalendarSettings.hourUnitHeight,
-                                  ),
-                          itemExtent: CalendarSettings.hourUnitHeight,
-                          itemCount: dayData.hours.length,
-                          itemBuilder: (context, index) {
-                            return HourUnit(
-                              startTime: dayData.hours[index],
-                            );
-                          },
-                        ),
-
-                        // ── Layer 2: event boxes ─────────────────────────
-                        Positioned.fill(
-                          child: AnimatedBuilder(
-                            animation: scrollController,
-                            builder: (context, _) {
-                              final scrollOffset =
-                                  scrollController.hasClients
-                                      ? scrollController.offset
-                                      : 0.0;
-                              return Stack(
-                                children: [
-                                  for (final event in dayEvents)
-                                    EventBox(
-                                      key: ValueKey(event.id),
-                                      event: event,
-                                      scrollOffset: scrollOffset,
-                                      overrideStart:
-                                          dragHandlerState.eventId == event.id
-                                              ? (dragHandlerState.mode ==
-                                                      DragMode.movingEvent
-                                                  ? dragHandlerState
-                                                      .currentStart
-                                                  : dragHandlerState
-                                                      .startTime)
-                                              : null,
-                                      overrideEnd:
-                                          dragHandlerState.eventId == event.id
-                                              ? dragHandlerState.currentEnd
-                                              : null,
+                  return Padding(
+                    padding: EdgeInsetsGeometry.symmetric(horizontal: 4),
+                    child: UnifiedDragHandler(
+                      child: Stack(
+                        children: [
+                          // ── Layer 1: scrollable hour grid ────────────────
+                          ListView.builder(
+                            controller: scrollController,
+                            physics:
+                                dragHandlerState.isDragging
+                                    ? const NeverScrollableScrollPhysics()
+                                    : const _SnapScrollPhysics(
+                                      itemExtent:
+                                          CalendarSettings.hourUnitHeight,
                                     ),
-                                ],
-                              );
+                            itemExtent: CalendarSettings.hourUnitHeight,
+                            itemCount: dayData.hours.length,
+                            itemBuilder: (context, index) {
+                              return HourUnit(startTime: dayData.hours[index]);
                             },
                           ),
-                        ),
 
-                        // ── Layer 3: current time bar (day-level) ────────
-                        if (isToday)
+                          // ── Layer 2: event boxes ─────────────────────────
                           Positioned.fill(
-                            child: IgnorePointer(
-                              child: AnimatedBuilder(
-                                animation: scrollController,
-                                builder: (context, _) {
-                                  final scrollOffset =
-                                      scrollController.hasClients
-                                          ? scrollController.offset
-                                          : 0.0;
-                                  final nowY =
-                                      (now.hour +
-                                              now.minute / 60.0 +
-                                              now.second / 3600.0) *
-                                          CalendarSettings.hourUnitHeight -
-                                      scrollOffset;
-                                  return Stack(
-                                    children: [
-                                      Positioned(
-                                        top: nowY,
-                                        left: 0,
-                                        right: 0,
-                                        child: const CurrentTimeBar(),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-
-                        // ── Layer 4: new-event drag ghost ────────────────
-                        if (dragHandlerState.mode == DragMode.creatingEvent &&
-                            dragHandlerState.startTime != null &&
-                            dragHandlerState.currentTime != null)
-                          IgnorePointer(
                             child: AnimatedBuilder(
                               animation: scrollController,
                               builder: (context, _) {
@@ -238,25 +170,69 @@ class HourlyGrid extends StatelessWidget {
                                         : 0.0;
                                 return Stack(
                                   children: [
-                                    _buildCreatePreview(
-                                      dragHandlerState,
-                                      scrollOffset,
-                                    ),
+                                    for (final event in dayEvents)
+                                      EventBox(
+                                        key: ValueKey(event.id),
+                                        event: event,
+                                        scrollOffset: scrollOffset,
+                                        overrideStart:
+                                            dragHandlerState.eventId == event.id
+                                                ? (dragHandlerState.mode ==
+                                                        DragMode.movingEvent
+                                                    ? dragHandlerState
+                                                        .currentStart
+                                                    : dragHandlerState
+                                                        .startTime)
+                                                : null,
+                                        overrideEnd:
+                                            dragHandlerState.eventId == event.id
+                                                ? dragHandlerState.currentEnd
+                                                : null,
+                                      ),
                                   ],
                                 );
                               },
                             ),
                           ),
 
-                        // ── Layer 5: event name text field ───────────────
-                        Positioned.fill(
-                          child: BlocBuilder<EventPreviewBloc,
-                              EventPreviewState>(
-                            builder: (context, previewState) {
-                              if (!previewState.isActive) {
-                                return const SizedBox.shrink();
-                              }
-                              return AnimatedBuilder(
+                          // ── Layer 3: current time bar (day-level) ────────
+                          if (isToday)
+                            Positioned.fill(
+                              child: IgnorePointer(
+                                child: AnimatedBuilder(
+                                  animation: scrollController,
+                                  builder: (context, _) {
+                                    final scrollOffset =
+                                        scrollController.hasClients
+                                            ? scrollController.offset
+                                            : 0.0;
+                                    final nowY =
+                                        (now.hour +
+                                                now.minute / 60.0 +
+                                                now.second / 3600.0) *
+                                            CalendarSettings.hourUnitHeight -
+                                        scrollOffset;
+                                    return Stack(
+                                      children: [
+                                        Positioned(
+                                          top: nowY,
+                                          left: 0,
+                                          right: 0,
+                                          child: const CurrentTimeBar(),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+
+                          // ── Layer 4: new-event drag ghost ────────────────
+                          if (dragHandlerState.mode == DragMode.creatingEvent &&
+                              dragHandlerState.startTime != null &&
+                              dragHandlerState.currentTime != null)
+                            IgnorePointer(
+                              child: AnimatedBuilder(
                                 animation: scrollController,
                                 builder: (context, _) {
                                   final scrollOffset =
@@ -265,19 +241,49 @@ class HourlyGrid extends StatelessWidget {
                                           : 0.0;
                                   return Stack(
                                     children: [
-                                      EventPreviewBox(
-                                        startTime: previewState.startTime!,
-                                        endTime: previewState.endTime!,
-                                        scrollOffset: scrollOffset,
+                                      _buildCreatePreview(
+                                        dragHandlerState,
+                                        scrollOffset,
                                       ),
                                     ],
                                   );
                                 },
-                              );
-                            },
+                              ),
+                            ),
+
+                          // ── Layer 5: event name text field ───────────────
+                          Positioned.fill(
+                            child: BlocBuilder<
+                              EventPreviewBloc,
+                              EventPreviewState
+                            >(
+                              builder: (context, previewState) {
+                                if (!previewState.isActive) {
+                                  return const SizedBox.shrink();
+                                }
+                                return AnimatedBuilder(
+                                  animation: scrollController,
+                                  builder: (context, _) {
+                                    final scrollOffset =
+                                        scrollController.hasClients
+                                            ? scrollController.offset
+                                            : 0.0;
+                                    return Stack(
+                                      children: [
+                                        EventPreviewBox(
+                                          startTime: previewState.startTime!,
+                                          endTime: previewState.endTime!,
+                                          scrollOffset: scrollOffset,
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 },
