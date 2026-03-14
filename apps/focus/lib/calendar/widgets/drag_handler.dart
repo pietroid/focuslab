@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus/calendar/bloc/drag_handler_bloc.dart';
-import 'package:focus/calendar/calendar.dart';
+import 'package:focus/calendar/calendar_view.dart';
+import 'package:focus/calendar/models/day_data.dart';
 import 'package:focus/calendar/utils/calendar_settings.dart';
 import 'package:focus/events/events.dart';
 import 'package:provider/provider.dart';
@@ -61,12 +62,8 @@ class _UnifiedDragHandlerState extends State<UnifiedDragHandler> {
 
   /// Returns the hit event (and whether the pointer is in the resize zone) if
   /// [localY] falls within any event box.  Returns null for empty space.
-  ({
-    String eventId,
-    DateTime eventStart,
-    DateTime eventEnd,
-    bool isResize,
-  })? _hitTestEvents(double localY) {
+  ({String eventId, DateTime eventStart, DateTime eventEnd, bool isResize})?
+  _hitTestEvents(double localY) {
     final dayData = context.read<DayData>();
     final scrollController = context.read<ScrollController>();
     final scrollOffset =
@@ -74,17 +71,18 @@ class _UnifiedDragHandlerState extends State<UnifiedDragHandler> {
     final calendarY = scrollOffset + localY;
 
     final day = dayData.hours.first;
-    final dayEvents = context
-        .read<EventsBloc>()
-        .state
-        .events
-        .where(
-          (e) =>
-              e.startDate.year == day.year &&
-              e.startDate.month == day.month &&
-              e.startDate.day == day.day,
-        )
-        .toList();
+    final dayEvents =
+        context
+            .read<EventsBloc>()
+            .state
+            .events
+            .where(
+              (e) =>
+                  e.startDate.year == day.year &&
+                  e.startDate.month == day.month &&
+                  e.startDate.day == day.day,
+            )
+            .toList();
 
     // Iterate in reverse so topmost-rendered event wins.
     for (final event in dayEvents.reversed) {
@@ -141,9 +139,7 @@ class _UnifiedDragHandlerState extends State<UnifiedDragHandler> {
   void _onPointerMove(PointerMoveEvent event) {
     if (_isDragging) {
       context.read<DragHandlerBloc>().add(
-        DragHandlerDragUpdated(
-          time: _localYToDateTime(event.localPosition.dy),
-        ),
+        DragHandlerDragUpdated(time: _localYToDateTime(event.localPosition.dy)),
       );
     } else {
       final down = _pointerDownPosition;
@@ -190,10 +186,7 @@ class _UnifiedDragHandlerState extends State<UnifiedDragHandler> {
       onPointerCancel: _onPointerCancel,
       // AbsorbPointer prevents the ListView and EventBoxes from receiving
       // events only while a drag is active.
-      child: AbsorbPointer(
-        absorbing: _isDragging,
-        child: widget.child,
-      ),
+      child: AbsorbPointer(absorbing: _isDragging, child: widget.child),
     );
   }
 }

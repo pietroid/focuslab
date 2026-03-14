@@ -1,54 +1,9 @@
-import 'package:app_ui/app_ui.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:focus/calendar/bloc/calendar_bloc.dart';
-import 'package:focus/calendar/widgets/day_column.dart';
-import 'package:focus/events/events.dart';
-import 'package:focus/events/repository/events_repository.dart';
-import 'package:linked_scroll_controller/linked_scroll_controller.dart';
+import 'package:focus/calendar/utils/calendar_formatter.dart';
 
-class Calendar extends StatefulWidget {
-  const Calendar({super.key});
-
-  @override
-  State<Calendar> createState() => _CalendarState();
-}
-
-class _CalendarState extends State<Calendar> {
-  late final LinkedScrollControllerGroup _scrollGroup;
-  late final List<DateTime> _listOfDays;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollGroup = LinkedScrollControllerGroup();
-    _listOfDays = List.generate(
-      20,
-      (index) => DateTime.now().add(Duration(days: index)),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => CalendarBloc(now: DateTime.now())),
-        BlocProvider(create: (ctx) => EventsBloc(eventsRepository: ctx.read<EventsRepository>())..add(EventsStarted())),
-      ],
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          final dayData = DayData.fromDay(_listOfDays[index]);
-          return DayColumn(data: dayData, scrollGroup: _scrollGroup);
-        },
-        separatorBuilder: (context, index) => SizedBox(width: 0),
-        itemCount: _listOfDays.length,
-      ),
-    );
-  }
-}
-
+/// Model representing a day in the calendar,
+/// containing information about the day's name, hours, and active time range.
 class DayData {
+  /// Constructs a [DayData] instance with the given parameters.
   DayData({
     required this.name,
     required this.hours,
@@ -57,10 +12,12 @@ class DayData {
     required this.activeEndTime,
   });
 
+  /// Factory constructor to create a [DayData]
+  /// instance from a [DateTime] object.
   factory DayData.fromDay(DateTime day) {
     final name = _getDayName(day.weekday);
-    final dayOfTheMonth =
-        '${day.day.toString().padLeft(2, '0')}/${day.month.toString().padLeft(2, '0')}';
+    final dayOfTheMonth = day.dayOfTheMonth();
+
     final hours = List.generate(
       24,
       (index) => DateTime(day.year, day.month, day.day, index),
@@ -119,6 +76,8 @@ class DayData {
     }
   }
 
+  /// Creates a copy of this [DayData] with
+  /// the given fields replaced by new values.
   DayData copyWith({
     String? name,
     String? dayOfTheMonth,

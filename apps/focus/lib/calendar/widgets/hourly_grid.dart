@@ -5,7 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus/calendar/bloc/calendar_bloc.dart';
 import 'package:focus/calendar/bloc/drag_handler_bloc.dart';
 import 'package:focus/calendar/bloc/event_preview_bloc.dart';
-import 'package:focus/calendar/calendar.dart';
+import 'package:focus/calendar/calendar_view.dart';
+import 'package:focus/calendar/models/day_data.dart';
 import 'package:focus/calendar/utils/calendar_settings.dart';
 import 'package:focus/calendar/widgets/current_time_bar.dart';
 import 'package:focus/calendar/widgets/drag_handler.dart';
@@ -138,7 +139,7 @@ class HourlyGrid extends StatelessWidget {
               return BlocBuilder<DragHandlerBloc, DragHandlerState>(
                 builder: (context, dragHandlerState) {
                   return Padding(
-                    padding: EdgeInsetsGeometry.symmetric(horizontal: 4),
+                    padding: const EdgeInsetsGeometry.symmetric(horizontal: 4),
                     child: UnifiedDragHandler(
                       child: Stack(
                         children: [

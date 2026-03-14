@@ -8,8 +8,8 @@
     ],
     "editor.selectionHighlight": true,
     "editor.tabCompletion": "onlySnippets",
-    // "editor.codeActionsOnSave": {
-    //   "source.fixAll": "explicit"
-    // }
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit"
+    }
   }
 }
