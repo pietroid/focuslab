@@ -21,3 +21,15 @@ final class EventDeleted extends EventsEvent {
 
   final String eventId;
 }
+
+final class EventAddedQuickly extends EventsEvent {
+  EventAddedQuickly({
+    required this.name,
+    required this.durationMinutes,
+    required this.isFixed,
+  });
+
+  final String name;
+  final int durationMinutes;
+  final bool isFixed;
+}

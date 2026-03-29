@@ -27,9 +27,7 @@ class GlobalScaffold extends StatelessWidget {
             end: Alignment.bottomRight,
           ),
         ),
-        child: SafeArea(
-          child: Padding(padding: EdgeInsets.all(AppSpacing.md), child: body),
-        ),
+        child: SafeArea(child: body),
       ),
     );
   }

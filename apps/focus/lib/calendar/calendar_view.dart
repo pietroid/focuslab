@@ -1,3 +1,4 @@
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/widgets.dart';
 import 'package:focus/calendar/models/day_data.dart';
 import 'package:focus/calendar/widgets/day_column.dart';
@@ -36,14 +37,17 @@ class _CalendarState extends State<CalendarView> {
   Widget build(BuildContext context) {
     /// Builds horizontal grid of days, with one column per day and
     /// rows representing hours.
-    return ListView.separated(
-      scrollDirection: Axis.horizontal,
-      itemBuilder: (context, index) {
-        final dayData = DayData.fromDay(_listOfDays[index]);
-        return DayColumn(data: dayData, scrollGroup: _scrollGroup);
-      },
-      separatorBuilder: (context, index) => const SizedBox(width: 0),
-      itemCount: _listOfDays.length,
+    return Padding(
+      padding: EdgeInsets.all(AppSpacing.md),
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          final dayData = DayData.fromDay(_listOfDays[index]);
+          return DayColumn(data: dayData, scrollGroup: _scrollGroup);
+        },
+        separatorBuilder: (context, index) => const SizedBox(width: 0),
+        itemCount: _listOfDays.length,
+      ),
     );
   }
 }
